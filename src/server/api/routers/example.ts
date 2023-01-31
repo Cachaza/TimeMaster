@@ -24,16 +24,16 @@ export const exampleRouter = createTRPCRouter({
     .input(z.object({ id: z.string().nullish(), nombre: z.string().nullish() }).nullish())
     .query(async ({ input }) => {
       const prisma = new PrismaClient();
-      const user = await prisma.user.update({
+      const user = await prisma.user.findFirst({
         where: {
           id: input?.id ?? "",
         },
-        data: {
-          name: input?.nombre,
+        select: {
+          name: true
         },
       });
       return {
-        name: user.name,
+        name: user?.name,
       };
     }
   ),

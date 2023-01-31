@@ -54,6 +54,7 @@ model User {
     emailVerified DateTime?
     image         String?
     description   String?
+    tiempoTotal   DateTime?
     accounts      Account[]
     sessions      Session[]
 }
