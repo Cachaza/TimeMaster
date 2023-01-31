@@ -54,11 +54,34 @@ model User {
     emailVerified DateTime?
     image         String?
     description   String?
-    tiempoTotal   DateTime?
     accounts      Account[]
     sessions      Session[]
+    asignaturas   Asignaturas[]
 }
 
+model Asignaturas{
+    asignaturaId String @id @default(cuid())
+    propietarioId String @unique
+    nombre String?
+    tiempoTrabajo Int?
+    tiempoDescanso Int?
+    tiempoTotal Int?
+    timepoObjetivo Int?
+
+    tiemposIndividuales TiemposIndividuales[]
+
+
+    user User @relation(fields: [propietarioId], references: [id], onDelete: Cascade)
+}
+
+model TiemposIndividuales{
+    asignaturaId String @unique
+    fecha String
+    tiempoTrabajo Int?
+    timpoTotal Int?
+
+    asignatura Asignaturas @relation(fields: [asignaturaId], references: [asignaturaId], onDelete: Cascade)
+}
 model VerificationToken {
     identifier String
     token      String   @unique
