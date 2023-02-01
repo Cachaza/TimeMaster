@@ -4,6 +4,8 @@ import { useState } from "react"
 import "tailwindcss/tailwind.css"
 import Router from "next/router";
 import Asignatura from "../pages/a/[id]";
+import DeleteButton from "./eliminarModal";
+
 
 interface Asignatura {
     Inombre: string;
@@ -21,8 +23,10 @@ const EditarAsignatura: React.FC<Asignatura> = ({Inombre, ItiempoTrabajo, Itiemp
     const [tiempoDescanso, setTiempoDescanso] = useState(ItiempoDescanso ?? 5);
     const [timepoObjetivo, setTimepoObjetivo] = useState(ItiempoObjetivo ?? 0);
 
+   
     const crear = api.asignaturas.modificarAsignatura.useMutation();
-    const eliminar = api.asignaturas.eliminarAsignatura.useMutation();
+    
+    <link rel="stylesheet" href="https://unpkg.com/@themesberg/flowbite@1.2.0/dist/flowbite.min.css" />
 
     return (
         <>
@@ -88,20 +92,15 @@ const EditarAsignatura: React.FC<Asignatura> = ({Inombre, ItiempoTrabajo, Itiemp
 
 
         </form>
-        <button onClick={async (e) => {
-            e.preventDefault()
-            await eliminar.mutateAsync({
-                id: sessionData?.user?.id,
-                asignaturaId: IasignaturaId
-            })
-            Router.push("/user");
+        <DeleteButton asignatura={IasignaturaId}/>
 
-                        
-        }}>
-            Eliminar
-        </button>
-        </>
+
+
         
+
+    </>
+
+                
     )
     
 

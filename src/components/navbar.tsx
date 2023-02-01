@@ -17,7 +17,7 @@ import Link from "next/link";
 
 
     return (
-        <nav className="p-3 bg-gray-50 border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+        <nav className="p-3 bg-gray-800 border-gray-700">
   <div className="container flex flex-wrap justify-between items-center mx-auto">
     <a href="." className="flex items-center">
         <img src="https://cdn-icons-png.flaticon.com/512/6266/6266465.png" className="mr-3 h-6 sm:h-10" alt="Logo" />
