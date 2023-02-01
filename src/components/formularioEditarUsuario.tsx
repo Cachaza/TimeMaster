@@ -83,9 +83,7 @@ return (
     <form className="form" 
     onSubmit={async (event) => {
         await actualizar(event);
-    }
-    }
-    >
+    }}>
 
                         
                         

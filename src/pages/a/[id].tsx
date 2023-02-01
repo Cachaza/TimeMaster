@@ -66,3 +66,23 @@ const Asignatura = () => {
     }
 
 export default Asignatura;
+
+
+export async function getServerSideProps(context: any) {
+    const session = await getSession(context);
+    
+    if (!session) {
+        return {
+            redirect: {
+                destination: "/unauth",
+                permanent: false,
+            },
+        };
+    }
+
+    return {
+        props: {
+            session,
+        },
+    };
+}

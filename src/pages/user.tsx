@@ -5,6 +5,7 @@ import FormularioCrearAsignatura from "../components/crearAsignatura"
 
 import Router from "next/router";
 
+
 import { getSession , useSession} from "next-auth/react"
 import { api } from "../utils/api"
 import Link from "next/link";
@@ -67,6 +68,7 @@ export default function User(){
                     <button className="text-xl bg-gray-600 rounded-lg text-white px-4" onClick={() => setAnadirAsignatura(false)}>
                         Añadir asignatura
                     </button>
+
                 </div>
             </div>
             </div>

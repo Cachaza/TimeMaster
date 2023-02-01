@@ -4,7 +4,7 @@ import { useState } from "react"
 import "tailwindcss/tailwind.css"
 import Router from "next/router";
 import Asignatura from "../pages/a/[id]";
-import DeleteButton from "./eliminarModal";
+import DeleteButton from "./modalEliminarAsignatura";
 
 
 interface Asignatura {
@@ -26,8 +26,6 @@ const EditarAsignatura: React.FC<Asignatura> = ({Inombre, ItiempoTrabajo, Itiemp
    
     const crear = api.asignaturas.modificarAsignatura.useMutation();
     
-    <link rel="stylesheet" href="https://unpkg.com/@themesberg/flowbite@1.2.0/dist/flowbite.min.css" />
-
     return (
         <>
         <form onSubmit={async (e) => {
@@ -86,13 +84,13 @@ const EditarAsignatura: React.FC<Asignatura> = ({Inombre, ItiempoTrabajo, Itiemp
                         type="submit"
                         className="p-2 mt-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
                     >
-                        Crear
+                        Actualizar
                     </button>
             </div>
 
 
         </form>
-        <DeleteButton asignatura={IasignaturaId}/>
+        <DeleteButton asignaturaId={IasignaturaId}/>
 
 
 
