@@ -1,6 +1,6 @@
 import Navbar from "../components/navbar"
 import Link from "next/link"
-import EditarAsignatura from "../components/editarPomodoro"
+
 
 export default function noLogin() {
 

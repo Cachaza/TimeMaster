@@ -6,7 +6,8 @@ import { getSession , useSession} from "next-auth/react"
 import { useState } from "react"
 import "tailwindcss/tailwind.css"
 import Navbar from "../../components/navbar";
-import EditarAsignatura from "../../components/editarPomodoro";
+
+import EditarAsignatura from "../../components/modalEditarAsignatura";
 
 const Asignatura = () => {
     const id = useRouter().query.id;
@@ -30,7 +31,7 @@ const Asignatura = () => {
         <>
         <Navbar />
         <div>
-        {editarPomodoro ? (
+
         <>
         <div className="flex flex-col items-center justify-center py-2 px-14 text-center">
             <h1 className="text-4xl font-bold">{nombre}</h1>
@@ -39,15 +40,10 @@ const Asignatura = () => {
             <Pomodoro workTime={ind?.tiempoTrabajo ?? 25} breakTime={ind?.tiempoDescanso ?? 5} />
         </div>
         </>
-        ) : (
-            <EditarAsignatura Inombre={ind?.nombre ?? "No definido"} ItiempoTrabajo={ind?.tiempoTrabajo ?? 25} ItiempoDescanso={ind?.tiempoDescanso ?? 5} ItiempoObjetivo={ind?.timepoObjetivo ?? 0} IasignaturaId={String(id)} />
-        )
 
-        }
+        <EditarAsignatura Inombre={ind?.nombre ?? "No definido"} ItiempoTrabajo={ind?.tiempoTrabajo ?? 25} ItiempoDescanso={ind?.tiempoDescanso ?? 5} ItiempoObjetivo={ind?.timepoObjetivo ?? 0} IasignaturaId={String(id)} />
 
-        <button onClick={() => setEditarPomodoro(!editarPomodoro)}>
-            {editarPomodoro ? "Editar" : "Volver"}
-        </button>
+
         </div>
 
         
