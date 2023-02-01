@@ -1,6 +1,6 @@
 import Navbar from "../components/navbar"
 import Link from "next/link"
-import FormularioCrearAsignatura from "../components/crearAsignatura"
+import EditarAsignatura from "../components/editarPomodoro"
 
 export default function noLogin() {
 
@@ -14,7 +14,7 @@ export default function noLogin() {
 
 
 
-                <FormularioCrearAsignatura />
+                
 
             </div>
           </>

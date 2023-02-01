@@ -76,7 +76,7 @@ model Asignaturas{
 
 model TiemposIndividuales{
     asignaturaId String @unique
-    fecha String
+    fecha DateTime @updatedAt
     tiempoTrabajo Int?
     timpoTotal Int?
 
