@@ -141,6 +141,27 @@ export const ruterAsignaturas = createTRPCRouter({
         }
 
     ),
+
+    eliminarAsignatura: publicProcedure
+    .input(z.object({ id: z.string().nullish(), asignaturaId: z.string()}).nullish())
+    .mutation(({ input, ctx }) => {
+        const prisma = new PrismaClient();
+        return prisma.user.update({
+            where: {
+                id: input?.id ?? "",
+            },
+            data: {
+                asignaturas: {
+                    delete: {
+                        asignaturaId: input?.asignaturaId ?? ""
+                    }
+                }
+            }
+        });
+        }
+
+    ),
+
         
     
         

@@ -22,8 +22,10 @@ const EditarAsignatura: React.FC<Asignatura> = ({Inombre, ItiempoTrabajo, Itiemp
     const [timepoObjetivo, setTimepoObjetivo] = useState(ItiempoObjetivo ?? 0);
 
     const crear = api.asignaturas.modificarAsignatura.useMutation();
+    const eliminar = api.asignaturas.eliminarAsignatura.useMutation();
 
     return (
+        <>
         <form onSubmit={async (e) => {
             e.preventDefault()
             await crear.mutateAsync({
@@ -86,7 +88,22 @@ const EditarAsignatura: React.FC<Asignatura> = ({Inombre, ItiempoTrabajo, Itiemp
 
 
         </form>
+        <button onClick={async (e) => {
+            e.preventDefault()
+            await eliminar.mutateAsync({
+                id: sessionData?.user?.id,
+                asignaturaId: IasignaturaId
+            })
+            Router.push("/user");
+
+                        
+        }}>
+            Eliminar
+        </button>
+        </>
+        
     )
+    
 
 
 }
