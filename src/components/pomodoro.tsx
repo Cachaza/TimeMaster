@@ -86,70 +86,9 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime, breakTime }) => {
         >
           {isPaused ? "Iniciar" : "Pausar"}
         </button>
-        <button
-          className="btn btn-secondary"
-          onClick={handleSettingsClick}
-        >
-          Configuración
-        </button>
+        
       </div>
-      {showSettings && (
-        <div className="settings">
-          <div className="settings-header">
-            <div className="settings-title">Configuración</div>
-            <ReactSlider
-              className="horizontal-slider"
-              thumbClassName="example-thumb"
-              trackClassName="example-track"
-              renderThumb={(props, state) => (
-                <div {...props}>{state.valueNow}</div>
-              )}
-              defaultValue={workTime}
-              min={1}
-              max={60}
-              onChange={(value) => setMinutes(value)}
-            />
-          </div>
-          <div className="settings-body">
-            <div className="settings-label">Tiempo de trabajo</div>
-            <div className="settings-value">{workTime}</div>
-          </div>
-          <div className="settings-body">
-            <div className="settings-label">Tiempo de descanso</div>
-            <div className="settings-value">{breakTime}</div>
-          </div>
-          <ReactSlider
-            className="horizontal-slider"
-            thumbClassName="example-thumb"
-            trackClassName="example-track"
-            renderThumb={(props, state) => (
-              <div {...props}>{state.valueNow}</div>
-            )}
-            defaultValue={breakTime}
-            min={1}
-            max={60}
-            onChange={(value) => setMinutes(value)}
-          />
-          <div className="settings-footer">
-            <button
-
-              className="btn btn-primary"
-              onClick={handleCloseSettings}
-            >
-              Cerrar
-            </button>
-
-          </div>
-                
-
-
-
-
-            
-
-               
-        </div>
-      )}
+      
     </div>
   );
 };

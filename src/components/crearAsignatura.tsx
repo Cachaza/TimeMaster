@@ -19,10 +19,11 @@ export default function FormularioCrearAsignatura() {
                 id: sessionData?.user?.id
             })
             Router.push("/user");
+            window.location.reload();
 
                         
         }}>
-            <div className="flex flex-col items-center justify-center min-h-screen py-2 -mt-28 px-14 text-center">
+            <div className="flex flex-col items-center justify-center py-2 px-14 text-center">
                 <h1 className="text-4xl font-bold">Crear Asignatura</h1>
                 <p className="mt-3 text-2xl">Por favor ingrese el nombre de la asignatura</p>
                 <div className="pt-6">

@@ -79,6 +79,35 @@ export const ruterAsignaturas = createTRPCRouter({
                 nombre: true,
                 tiempoTotal: true,
                 timepoObjetivo:true,
+                asignaturaId: true
+            }
+
+        })
+    }
+    ),
+
+    getAsignatura: publicProcedure
+    .input(z.object({ id: z.string().nullish(), asignaturaId: z.string()}).nullish())
+    .query(async ({ input }) => {
+        const prisma = new PrismaClient();
+        return prisma.user.findUnique({
+            where: {
+                id: input?.id ?? ""
+            },
+            select:{
+                asignaturas: {
+                    where: {
+                        asignaturaId: input?.asignaturaId ?? ""
+                    },
+                    select: {
+                        nombre: true,
+                        tiempoTotal: true,
+                        timepoObjetivo:true,
+                        tiempoDescanso: true,
+                        tiempoTrabajo: true
+                    }
+
+                }
             }
 
         })
