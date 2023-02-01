@@ -1,15 +1,15 @@
 import Navbar from "../components/navbar"
 import { useState } from "react"
 import "tailwindcss/tailwind.css"
-import FormularioCrearAsignatura from "../components/crearAsignatura"
+
 
 import Router from "next/router";
 
 
 import { getSession , useSession} from "next-auth/react"
+import AñadirBton from "../components/modalAñadirAsignatura";
 import { api } from "../utils/api"
-import Link from "next/link";
-import { faHomeLgAlt } from "@fortawesome/free-solid-svg-icons"
+
 
 export default function User(){
     const { data: sessionData, status } = useSession();
@@ -31,13 +31,10 @@ export default function User(){
 
 
 
-    
-
-    
     return (
         <>
         <Navbar />
-        {anadirAsignatura ? (
+
         <div className="pb-20 font-sans h-screen w-full flex flex-row justify-center items-center text-black">
                 <div className="card w-3/4 mx-auto bg-white  shadow-xl rounded-xl ">
                 <img className="w-32 mx-auto rounded-full -mt-20 border-8 border-white" src={sessionData?.user?.image ? sessionData?.user?.image : "https://images.squarespace-cdn.com/content/v1/5ccc49ee348cd92c42de2bb7/1614191616274-GDEYW4J7O7QNJ0ICAP17/Kim+Wood+Placeholder+Image.png?format=1000w" } alt=""></img>
@@ -62,28 +59,12 @@ export default function User(){
                         </div>
                     ))}
 
-    
                 </div>
                 <div className="text-center py-4">
-                    <button className="text-xl bg-gray-600 rounded-lg text-white px-4" onClick={() => setAnadirAsignatura(false)}>
-                        Añadir asignatura
-                    </button>
-
+                    <AñadirBton />
                 </div>
             </div>
             </div>
-            
-            ) : (
-                <div className="flex flex-col items-center justify-center min-h-screen py-2 -mt-28 px-14 text-center">
-                    <FormularioCrearAsignatura />
-                    <div>
-                        <button onClick={() => setAnadirAsignatura(true)}>Cerrar</button>
-                    </div>
-                </div>
-
-            )}
-            
-        
 
         </>
     )

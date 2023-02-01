@@ -80,17 +80,24 @@ const EditarAsignatura: React.FC<Asignatura> = ({Inombre, ItiempoTrabajo, Itiemp
                         className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500, text-black"
                     />
                     </div>
-                    <button
-                        type="submit"
-                        className="p-2 mt-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
-                    >
-                        Actualizar
-                    </button>
+                    <div className="px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                        <div className="p-3">
+                        <button
+                            type="submit"
+                            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                            >
+                            Actualizar
+                        </button>
+                        </div>
+                        <div className="p-3">
+                            <DeleteButton asignaturaId={IasignaturaId}/>
+                        </div>
+                    </div>
             </div>
 
 
         </form>
-        <DeleteButton asignaturaId={IasignaturaId}/>
+        
 
 
 
