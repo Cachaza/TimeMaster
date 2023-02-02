@@ -66,7 +66,7 @@ const Home: NextPage = () => {
             <p>{hello.data ? hello.data.name : "Loading..."}</p>
           </div>
           */}
-          <Pomodoro workTime={25} breakTime={5} />
+
 
           
           

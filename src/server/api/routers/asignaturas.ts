@@ -162,8 +162,66 @@ export const ruterAsignaturas = createTRPCRouter({
 
     ),
 
-        
-    
-        
-    
+    añadirTiempo: publicProcedure
+    .input(z.object({ id: z.string().nullish(), asignaturaId: z.string(), tiempo: z.number(), tiempoTotal: z.number()}).nullish())
+    .mutation(({ input, ctx }) => {
+        const prisma = new PrismaClient();
+        return prisma.user.update({
+            where: {
+                id: input?.id ?? "",
+            },
+            data: {
+                asignaturas: {
+                    update: {
+                        where: {
+                            asignaturaId: input?.asignaturaId ?? ""
+                        },
+                        data: {
+                            tiemposIndividuales: {
+                                create: {
+                                    tiempoTrabajo: input?.tiempo ?? 0,
+                                    tiempoTotal: input?.tiempoTotal ?? 0
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        }
+
+    ),
+
+    getTiempoSuma: publicProcedure
+    .input(z.object({ id: z.string().nullish(), asignaturaId: z.string()}).nullish())
+    .query(async ({ input }) => {
+        const prisma = new PrismaClient();
+        const suma =  prisma.user.findMany({
+            where: {
+                id: input?.id ?? ""
+            },
+            select: {
+                asignaturas: {
+                    where: {
+                        asignaturaId: input?.asignaturaId ?? ""
+                    },
+
+                    select: {
+                        tiemposIndividuales: {
+                            select: {
+                                tiempoTrabajo: true
+                            }
+                        }
+                    }
+                }
+            }
+
+            
+
+        })
+        return suma
+
+
+    }
+    ),
 })

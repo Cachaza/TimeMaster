@@ -47,16 +47,14 @@ export default function User(){
                     {asignaturas.isLoading && <div className="text-center text-xl font-medium align-middle">Cargando...</div>}
                     {asignaturas.data?.map((asignatura) => (
                         
-                        <div className="rounded-md w-full self-auto bg-sky-500 text-white border-2 border-black hover:shadow-gray-400 hover:shadow-md"
+                        <a className="rounded-md w-full self-auto bg-sky-500 text-white border-2 border-black hover:shadow-gray-400 hover:shadow-md"
                         onClick={() => Router.push("/a/" + asignatura.asignaturaId)}
                         key={asignatura.asignaturaId}
                         >
                             <div className="text-center text-xl font-medium">{asignatura.nombre}</div>
                             <div className="text-center text-sm font-light">Timepo total: {asignatura.tiempoTotal}</div>
                             <div className="text-center text-sm font-light">Tiempo objetivo: {asignatura.timepoObjetivo}</div>
-
-
-                        </div>
+                        </a>
                     ))}
 
                 </div>

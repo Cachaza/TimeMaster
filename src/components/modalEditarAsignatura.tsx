@@ -2,8 +2,8 @@ import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { api } from '../utils/api'
 import { useSession } from 'next-auth/react'
-import Router  from 'next/router'
 import DeleteButton from './modalEliminarAsignatura'
+import ReactSlider from 'react-slider'
 
 
 interface Asignatura {
@@ -68,7 +68,7 @@ const EditarAsignatura: React.FC<Asignatura> = ({Inombre, ItiempoTrabajo, Itiemp
                   <div className="sm:flex sm:items-start">
                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                       <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
-                        Añadir asignatura
+                        Editar asignatura
                       </Dialog.Title>
                       <div className="mt-2">
                       <form onSubmit={async (e) => {
@@ -82,45 +82,43 @@ const EditarAsignatura: React.FC<Asignatura> = ({Inombre, ItiempoTrabajo, Itiemp
                                 asignaturaId: IasignaturaId
 
                             })
-                            Router.push("/user");
                             window.location.reload();
 
                                         
                         }}>
-                            <div className="flex flex-col items-center justify-center py-2 px-14 text-center">
-                                <h1 className="text-4xl font-bold">Editar Asignatura</h1>
-                                <p className="mt-3 text-2xl">Nombre</p>
-                                <div className="pt-6">
+                            <div className="flex flex-col items-center justify-center py-2 px-14 text-center text-black">
+                                <p className="p-1 text-xl">Nombre</p>
+                                <div className="pt-3">
                                     <input
                                         type="text"
                                         placeholder="Nombre"
                                         value={nombre}
                                         onChange={(e) => setNombre(e.target.value)}
-                                        className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500, text-black"
+                                        className="p-1 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500, text-black"
                                     />
-                                    <p className="mt-3 text-2xl">Tiempo de trabajo</p>
+                                    <p className="p-1 text-xl">Tiempo de trabajo</p>
                                     <input 
                                         type="number" 
                                         placeholder="25"
                                         value={tiempoTrabajo}
                                         onChange={(e) => setTiempoTrabajo(parseInt(e.target.value))}
-                                        className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500, text-black"
+                                        className="p-1 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500, text-black"
                                     />
-                                    <p className="mt-3 text-2xl">Tiempo de descanso</p>
+                                    <p className="p-1 text-xl">Tiempo de descanso</p>
                                     <input
                                         type="number"
                                         placeholder="5"
                                         value={tiempoDescanso}
                                         onChange={(e) => setTiempoDescanso(parseInt(e.target.value))}
-                                        className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500, text-black"
+                                        className="p-1 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500, text-black"
                                     />
-                                    <p className="mt-3 text-2xl">Tiempo objetivo</p>
+                                    <p className="p-1 text-xl">Tiempo objetivo</p>
                                     <input
                                         type="number"
                                         placeholder="0"
                                         value={timepoObjetivo}
                                         onChange={(e) => setTimepoObjetivo(parseInt(e.target.value))}
-                                        className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500, text-black"
+                                        className="p-1 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500, text-black"
                                     />
                                     </div>
                                     <div className="px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">

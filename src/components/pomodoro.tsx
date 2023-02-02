@@ -1,6 +1,11 @@
 import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import React, { useState, useEffect, useRef } from "react";
+import { useSession } from 'next-auth/react'
+
+import { api } from "../utils/api";
+
+
 import useSound from 'use-sound';
 
 
@@ -9,14 +14,28 @@ import ReactSlider from 'react-slider';
 interface PomodoroProps {
   workTime: number;
   breakTime: number;
+  asignaturaId: string;
 }
 
-const Pomodoro: React.FC<PomodoroProps> = ({ workTime, breakTime }) => {
+const Pomodoro: React.FC<PomodoroProps> = ({ workTime, breakTime, asignaturaId }) => {
   const [minutes, setMinutes] = useState(workTime);
   const [seconds, setSeconds] = useState(0);
   const [displayMessage, setDisplayMessage] = useState(false);
   const [isPaused, setIsPaused] = useState(true);
   const [showSettings, setShowSettings] = useState(false);
+
+  const tiempo = api.asignaturas.añadirTiempo.useMutation();
+  const { data: sessionData } = useSession();
+
+  async function addTime(tiempoE: any, tiempoT: any) {
+    await tiempo.mutateAsync({
+      asignaturaId: asignaturaId,
+      id: sessionData?.user?.id,
+      tiempo: tiempoE,
+      tiempoTotal: tiempoT + tiempoE,
+    });
+  }
+
 
 
 
@@ -42,9 +61,15 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime, breakTime }) => {
           setSeconds(59);
           setMinutes(minutes - 1);
         } else {
+
           // set break
           let minutes = displayMessage ? workTime : breakTime;
           let seconds = 0;
+
+          if (!displayMessage) {
+            addTime(workTime, breakTime);
+          } 
+
 
           let audio = new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3');
           audio.play();
