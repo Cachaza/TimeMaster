@@ -8,30 +8,17 @@ interface Asignatura {
     nombre: string;
     asignaturaId: string;
     tiempoObjetivo: number;
+    tiempoTotal: number;
 }
 
 
-const TarjetaAsignatura: React.FC<Asignatura> = ({ nombre, asignaturaId, tiempoObjetivo}) => {
+const TarjetaAsignatura: React.FC<Asignatura> = ({ nombre, asignaturaId, tiempoObjetivo, tiempoTotal}) => {
 
     const { data: sessionData } = useSession();
     const getTiempos = api.asignaturas.getTiempos.useQuery({ id: sessionData?.user.id, asignaturaId: asignaturaId });
 
 
-    function getSumaTiempos() {
-
-
-        if (getTiempos.data) {    
-            let suma = 0;     
-            for (let i = 0; i < getTiempos.data.length; i++) {
-                suma += getTiempos.data[i]?.tiempoTrabajo ?? 0;
-            }
-            return suma;
-
-        } else {
-            return 0;
-        }
-
-    }
+    
 
     function pasarHoraOMinutos(tiempo: number) {
         if (tiempo >= 60) {
@@ -44,9 +31,9 @@ const TarjetaAsignatura: React.FC<Asignatura> = ({ nombre, asignaturaId, tiempoO
         }
     }
 
-    const porcentaje = (getSumaTiempos() / (tiempoObjetivo * 60)) * 100;
 
-    const tiempoFinal = pasarHoraOMinutos(getSumaTiempos());
+
+    const tiempoFinal = pasarHoraOMinutos(tiempoTotal);
     
 
    

@@ -48,7 +48,7 @@ export default function User(){
                     {asignaturas.isLoading && <div className="text-center text-xl font-medium align-middle">Cargando...</div>}
                     {asignaturas.data?.map((asignatura) => (
                         
-                        <TarjetaAsignatura asignaturaId={asignatura.asignaturaId} nombre={asignatura.nombre} tiempoObjetivo={asignatura.timepoObjetivo ?? 0}/>
+                        <TarjetaAsignatura asignaturaId={asignatura.asignaturaId} nombre={asignatura.nombre} tiempoObjetivo={asignatura.timepoObjetivo ?? 0} tiempoTotal={asignatura.tiempoTotal ?? 0}/>
                     ))}
 
                 </div>

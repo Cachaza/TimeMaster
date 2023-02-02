@@ -209,4 +209,30 @@ export const ruterAsignaturas = createTRPCRouter({
         return suma
     }
     ),
+
+    actualizarTiempoTotal: publicProcedure
+    .input(z.object({ id: z.string().nullish(), asignaturaId: z.string(), tiempoTotal: z.number()}).nullish())
+    .mutation(({ input }) => {
+        const prisma = new PrismaClient();
+        return prisma.user.update({
+            where: {
+                id: input?.id ?? "",
+            },
+            data: {
+                asignaturas: {
+                    update: {
+                        where: {
+                            asignaturaId: input?.asignaturaId ?? ""
+                        },
+                        data: {
+                            tiempoTotal: input?.tiempoTotal ?? 0
+                        }
+                    }
+                }
+            }
+        });
+        }
+
+    ),
+
 })

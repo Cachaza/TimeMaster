@@ -26,6 +26,9 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime, breakTime, asignaturaId }
 
   const tiempo = api.asignaturas.añadirTiempo.useMutation();
   const { data: sessionData } = useSession();
+  const getTiempos = api.asignaturas.getTiempos.useQuery({ id: sessionData?.user.id, asignaturaId: asignaturaId });
+  const actualizarTiempoTotalBase = api.asignaturas.actualizarTiempoTotal.useMutation();
+
 
   async function addTime(tiempoE: any, tiempoT: any) {
     await tiempo.mutateAsync({
@@ -36,14 +39,38 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime, breakTime, asignaturaId }
     });
   }
 
+  function getSumaTiempos() {
+
+    if (getTiempos.data) {    
+        let suma = 0;     
+        for (let i = 0; i < getTiempos.data.length; i++) {
+            suma += getTiempos.data[i]?.tiempoTrabajo ?? 0;
+        }
+        return suma;
+
+    } else {
+        return 0;
+    }
+
+  }
+
+  async function actualizarTiempoTotal(trabajado: number) {
+    const antiguoTiempo = getSumaTiempos();
+
+    await actualizarTiempoTotalBase.mutateAsync({
+      asignaturaId: asignaturaId,
+      id: sessionData?.user?.id,
+      tiempoTotal: antiguoTiempo + trabajado,
+    });
+       
+
+  }
 
 
 
 
 
 
-
-  let cancionDescanso = new Audio('https://rr1---sn-8vq54voxn25po-h5qel.googlevideo.com/videoplayback?expire=1675268458&ei=Cj3aY8-5M8eU_tcP0c6PqA8&ip=34.135.20.23&id=o-AEm5_kNH4GEeae8G2m-SjGXLmdVljYFEINGgAL69wJ20&itag=251&source=youtube&requiressl=yes&vprv=1&mime=audio%2Fwebm&ns=vJW4uJ28kWjoSeRUsJUfvaEL&gir=yes&clen=538912321&dur=36082.941&lmt=1651972966781508&keepalive=yes&fexp=24007246&c=WEB&txp=4532434&n=0sPumyVarDcCatC9VvKZHw&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cvprv%2Cmime%2Cns%2Cgir%2Cclen%2Cdur%2Clmt&sig=AOq0QJ8wRAIgJbM-buR_R6SyxLZuKRn-cwPAZAJ6kyJ4rsAs5mfdo3ACICtGEzk3587nlQLtEYVba371TfF_UxEIgQHP-xJ5bXEu&ratebypass=yes&redirect_counter=1&rm=sn-qxosr7e&req_id=61bc05829bcca3ee&cms_redirect=yes&ipbypass=yes&mh=Kq&mip=95.61.11.147&mm=31&mn=sn-8vq54voxn25po-h5qel&ms=au&mt=1675246402&mv=m&mvi=1&pl=24&lsparams=ipbypass,mh,mip,mm,mn,ms,mv,mvi,pl&lsig=AG3C_xAwRQIhAMgXJDdIB8gYDPWJ7nHo9dWUx38f7tNmF8a79YCT-ttaAiBsa9m436HYnVvOc5_zMM_L4mVpJnQGY3X-hy9M3DQE1g%3D%3D')
 
   
 
@@ -68,6 +95,10 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime, breakTime, asignaturaId }
 
           if (!displayMessage) {
             addTime(workTime, breakTime);
+            actualizarTiempoTotal(workTime);
+            
+
+
           } 
 
 
