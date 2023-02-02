@@ -2,6 +2,7 @@ import { z } from "zod";
 import { PrismaClient } from "@prisma/client";
 
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
+import { time } from "console";
 
 export const ruterAsignaturas = createTRPCRouter({
     getAsignaturas: publicProcedure
@@ -192,36 +193,20 @@ export const ruterAsignaturas = createTRPCRouter({
 
     ),
 
-    getTiempoSuma: publicProcedure
+    getTiempos: publicProcedure
     .input(z.object({ id: z.string().nullish(), asignaturaId: z.string()}).nullish())
     .query(async ({ input }) => {
         const prisma = new PrismaClient();
-        const suma =  prisma.user.findMany({
+        const suma =  prisma.tiemposIndividuales.findMany({
             where: {
-                id: input?.id ?? ""
+                asignaturaId: input?.asignaturaId ?? ""
+
             },
             select: {
-                asignaturas: {
-                    where: {
-                        asignaturaId: input?.asignaturaId ?? ""
-                    },
-
-                    select: {
-                        tiemposIndividuales: {
-                            select: {
-                                tiempoTrabajo: true
-                            }
-                        }
-                    }
-                }
+                tiempoTrabajo: true
             }
-
-            
-
         })
         return suma
-
-
     }
     ),
 })
