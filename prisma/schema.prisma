@@ -75,10 +75,11 @@ model Asignaturas{
 }
 
 model TiemposIndividuales{
-    asignaturaId String @unique
+    id String @id @default(cuid())
+    asignaturaId String 
     fecha DateTime @updatedAt
     tiempoTrabajo Int?
-    timpoTotal Int?
+    tiempoTotal Int?
 
     asignatura Asignaturas @relation(fields: [asignaturaId], references: [asignaturaId], onDelete: Cascade)
 }
