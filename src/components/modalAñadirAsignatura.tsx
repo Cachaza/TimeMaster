@@ -76,6 +76,7 @@ export default function AñadirBton() {
                                 <p className="mt-3 text-2xl">Por favor ingrese el nombre de la asignatura</p>
                                 <div className="pt-6">
                                     <input
+                                        required
                                         type="text"
                                         placeholder="Nombre"
                                         value={nombre}

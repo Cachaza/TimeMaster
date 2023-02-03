@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useSession } from 'next-auth/react'
 
 import { api } from "../utils/api";
+import Router from 'next/router';
 
 
 import useSound from 'use-sound';
@@ -66,6 +67,16 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime, breakTime, asignaturaId }
 
   }
 
+  async function finalizarTiempo() {
+    if(!displayMessage){
+      const tiempoEstudiado = workTime - minutes;
+      await addTime(tiempoEstudiado, breakTime);
+      await actualizarTiempoTotal(tiempoEstudiado);
+      Router.push('/user');
+      
+    }
+  }
+
 
 
 
@@ -96,17 +107,13 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime, breakTime, asignaturaId }
           if (!displayMessage) {
             addTime(workTime, breakTime);
             actualizarTiempoTotal(workTime);
-            
-
 
           } 
 
 
           let audio = new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3');
           audio.play();
-          
-
-          
+                   
           setSeconds(seconds);
           setMinutes(minutes);
           setDisplayMessage(!displayMessage);
@@ -155,12 +162,18 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime, breakTime, asignaturaId }
           })}
         />
       </div>
-      <div className="buttons">
+      <div className="buttons pt-5">
         <button
           className="btn btn-primary"
           onClick={handleStartStopClick}
         >
           {isPaused ? "Iniciar" : "Pausar"}
+        </button>
+        <button
+          className="btn btn-primary"
+          onClick={finalizarTiempo}
+        >
+          Finalizar
         </button>
         
       </div>
