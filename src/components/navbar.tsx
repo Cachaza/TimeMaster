@@ -17,7 +17,7 @@ import Link from "next/link";
     return (
         <nav className="p-3 bg-gray-800 border-gray-700">
   <div className="container flex flex-wrap justify-between items-center mx-auto">
-    <a href="." className="flex items-center">
+    <a href="/" className="flex items-center">
         <img src="https://cdn-icons-png.flaticon.com/512/6266/6266465.png" className="mr-3 h-6 sm:h-10" alt="Logo" />
         <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">TimeMaster</span>
     </a>
