@@ -12,8 +12,6 @@ interface PomodoroProps {
 }
 
 const Cronometro: React.FC<PomodoroProps> = ({ asignaturaId }) => {
-  const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(0);
 
   const [isPaused, setIsPaused] = useState(true);
 
@@ -22,6 +20,10 @@ const Cronometro: React.FC<PomodoroProps> = ({ asignaturaId }) => {
   const { data: sessionData } = useSession();
   const getTiempos = api.asignaturas.getTiempos.useQuery({ id: sessionData?.user.id, asignaturaId: asignaturaId });
   const actualizarTiempoTotalBase = api.asignaturas.actualizarTiempoTotal.useMutation();
+  const [referenceTime, setReferenceTime] = useState(Date.now());
+  const [timeElapsed, setTimeElapsed] = useState<number>(0);
+  const [startTime, setStartTime] = useState<number | null>(null);
+
 
 
   async function addTime(tiempoE: number) {
@@ -60,51 +62,38 @@ const Cronometro: React.FC<PomodoroProps> = ({ asignaturaId }) => {
 
   }
 
-  async function finalizarTiempo() {
-      await addTime(minutes);
-      await actualizarTiempoTotal(minutes);
-      Router.push('/user');
-         
-  }
-
-
-
-
-
-
-
-  
-
-
   useEffect(() => {
-    let interval = setInterval(() => {
-      clearInterval(interval);
+    if (!isPaused) {
+      const intervalId = setInterval(() => {
+        setTimeElapsed(Date.now() - startTime! + timeElapsed);
+      }, 10);
+      return () => clearInterval(intervalId);
+    }
+  }, [isPaused, startTime]);
 
-      if (isPaused) {
-        return;
-      }
-      
-      if (seconds === 59) {
-          setSeconds(0);
-          setMinutes(minutes + 1);     
-      } else {
-        setSeconds(seconds + 1);
-      }
-    }, 1000);
-  }, [seconds, isPaused]);
+  const handleStart = () => {
+    setIsPaused(!isPaused);
+    setStartTime(Date.now());
+  };
 
-  let totalSeconds = minutes * 60 + seconds;
-  const elapsedSeconds = seconds + minutes * 60;
-  const percentage = (seconds / 60) * 100;
-
-  const timerMinutes = minutes < 10 ? `0${minutes}` : minutes;
-  const timerSeconds = seconds < 10 ? `0${seconds}` : seconds;
-
-
+    const seconds = Math.floor(timeElapsed / 1000) % 60;
+    const minutes = Math.floor(timeElapsed / (1000 * 60)) % 60;
+    const hours = Math.floor(timeElapsed / (1000 * 60 * 60)) % 24;
+  
+    
 
   const handleStartStopClick = () => {
     setIsPaused(!isPaused);
   };
+
+  const handleFinish = () => {
+    setIsPaused(!isPaused);
+    const tiempoEnMinutos = Math.floor((timeElapsed / 1000) / 60);
+    addTime(tiempoEnMinutos);
+    actualizarTiempoTotal(tiempoEnMinutos);
+    setTimeElapsed(0);
+    Router.push('/user');
+    };
 
 
 
@@ -114,27 +103,24 @@ const Cronometro: React.FC<PomodoroProps> = ({ asignaturaId }) => {
       <div className="text-3xl pb-6">
         <h1>Trabajo</h1>
       </div>
-      <div className="timer">
-        <CircularProgressbarWithChildren
-          value={percentage}
-          text={timerMinutes + ':' + timerSeconds}
-          styles={buildStyles({
-            textColor: "#fff",
-            pathColor: "#fff",
-            trailColor: "transparent",
-          })}
-        />
+      <div className="timer text-6xl">
+      <p>
+        {hours.toString().padStart(2, '0')}:
+        {minutes.toString().padStart(2, '0')}:
+        {seconds.toString().padStart(2, '0')}
+
+      </p>
       </div>
       <div className="buttons pt-5">
         <button
           className="btn btn-primary pr-2 font-bold text-center"
-          onClick={handleStartStopClick}
+          onClick={isPaused ? handleStart : handleStartStopClick}
         >
           {isPaused ? "Iniciar" : "Pausar"}
         </button>
         <button
           className="btn btn-primary pl-2 font-bold text-center"
-          onClick={finalizarTiempo}
+          onClick={handleFinish}
         >
           Finalizar
         </button>
