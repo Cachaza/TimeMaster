@@ -2,7 +2,6 @@ import Navbar from "../components/navbar"
 import { useState } from "react"
 import "tailwindcss/tailwind.css"
 
-
 import Router from "next/router";
 
 
@@ -10,6 +9,7 @@ import { getSession , useSession} from "next-auth/react"
 import AñadirBton from "../components/modalAñadirAsignatura";
 import { api } from "../utils/api"
 import TarjetaAsignatura from "../components/tarjetaAsignatura";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
 
 
 export default function User(){
@@ -62,7 +62,7 @@ export default function User(){
     )
 }
 
-export async function getServerSideProps(context: any) {
+export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
     const session = await getSession(context);
     
     if (!session) {

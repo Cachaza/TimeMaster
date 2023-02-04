@@ -5,25 +5,18 @@ import { useSession } from 'next-auth/react'
 
 import { api } from "../utils/api";
 import Router from 'next/router';
-import { Icon } from '@fortawesome/fontawesome-svg-core';
 
-import useSound from 'use-sound';
-
-
-import ReactSlider from 'react-slider';
 
 interface PomodoroProps {
-  workTime: number;
-  breakTime: number;
   asignaturaId: string;
 }
 
-const Pomodoro: React.FC<PomodoroProps> = ({ workTime, breakTime, asignaturaId }) => {
-  const [minutes, setMinutes] = useState(workTime);
+const Cronometro: React.FC<PomodoroProps> = ({ asignaturaId }) => {
+  const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
-  const [displayMessage, setDisplayMessage] = useState(false);
+
   const [isPaused, setIsPaused] = useState(true);
-  const [showSettings, setShowSettings] = useState(false);
+
 
   const tiempo = api.asignaturas.añadirTiempo.useMutation();
   const { data: sessionData } = useSession();
@@ -31,12 +24,12 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime, breakTime, asignaturaId }
   const actualizarTiempoTotalBase = api.asignaturas.actualizarTiempoTotal.useMutation();
 
 
-  async function addTime(tiempoE: any, tiempoT: any) {
+  async function addTime(tiempoE: number) {
     await tiempo.mutateAsync({
       asignaturaId: asignaturaId,
       id: sessionData?.user?.id,
       tiempo: tiempoE,
-      tiempoTotal: tiempoT + tiempoE,
+      tiempoTotal: tiempoE,
     });
   }
 
@@ -68,13 +61,10 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime, breakTime, asignaturaId }
   }
 
   async function finalizarTiempo() {
-    if(!displayMessage){
-      const tiempoEstudiado = workTime - minutes;
-      await addTime(tiempoEstudiado, breakTime);
-      await actualizarTiempoTotal(tiempoEstudiado);
+      await addTime(minutes);
+      await actualizarTiempoTotal(minutes);
       Router.push('/user');
-      
-    }
+         
   }
 
 
@@ -94,50 +84,23 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime, breakTime, asignaturaId }
         return;
       }
       
-      if (seconds === 0) {
-        if (minutes !== 0) {
-          setSeconds(59);
-          setMinutes(minutes - 1);
-        } else {
-
-          // set break
-          let minutes = displayMessage ? workTime : breakTime;
-          let seconds = 0;
-
-          if (!displayMessage) {
-            addTime(workTime, breakTime);
-            actualizarTiempoTotal(workTime);
-
-          } 
-
-
-          let audio = new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3');
-          audio.play();
-                   
-          setSeconds(seconds);
-          setMinutes(minutes);
-          setDisplayMessage(!displayMessage);
-        }
+      if (seconds === 59) {
+          setSeconds(0);
+          setMinutes(minutes + 1);     
       } else {
-        setSeconds(seconds - 1);
+        setSeconds(seconds + 1);
       }
     }, 1000);
-  }, [seconds, isPaused, displayMessage]);
+  }, [seconds, isPaused]);
 
-  let totalSeconds = displayMessage ? breakTime * 60 : workTime * 60;
+  let totalSeconds = minutes * 60 + seconds;
   const elapsedSeconds = seconds + minutes * 60;
-  const percentage = (elapsedSeconds / totalSeconds) * 100;
+  const percentage = (seconds / 60) * 100;
 
   const timerMinutes = minutes < 10 ? `0${minutes}` : minutes;
   const timerSeconds = seconds < 10 ? `0${seconds}` : seconds;
 
-  const handleSettingsClick = () => {
-    setShowSettings(true);
-  };
 
-  const handleCloseSettings = () => {
-    setShowSettings(false);
-  };
 
   const handleStartStopClick = () => {
     setIsPaused(!isPaused);
@@ -149,7 +112,7 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime, breakTime, asignaturaId }
   return (
     <div className="pomodoro text-center columns-sm">
       <div className="text-3xl pb-6">
-        {displayMessage ? "Descanso" : "Trabajo"}
+        <h1>Trabajo</h1>
       </div>
       <div className="timer">
         <CircularProgressbarWithChildren
@@ -164,13 +127,13 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime, breakTime, asignaturaId }
       </div>
       <div className="buttons pt-5">
         <button
-          className="btn btn-primary pr-2"
+          className="btn btn-primary pr-2 font-bold text-center"
           onClick={handleStartStopClick}
         >
           {isPaused ? "Iniciar" : "Pausar"}
         </button>
         <button
-          className="btn btn-primary pl-2"
+          className="btn btn-primary pl-2 font-bold text-center"
           onClick={finalizarTiempo}
         >
           Finalizar
@@ -182,4 +145,4 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime, breakTime, asignaturaId }
   );
 };
 
-export default Pomodoro;
+export default Cronometro;
