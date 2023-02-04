@@ -1,6 +1,7 @@
 import Navbar from "../components/navbar"
 import { useState } from "react"
 import "tailwindcss/tailwind.css"
+import Head from "next/head";
 
 import { getProviders, signIn, getCsrfToken, getSession , useSession} from "next-auth/react"
 
@@ -29,7 +30,10 @@ export default function Login({ getProviders, getSession, getCsrfToken }: any) {
 
   return (
     <>
-
+      <Head>
+          <title>Login</title>
+          <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Navbar />
       <div className="flex flex-col items-center justify-center min-h-screen py-2 -mt-28 px-14 text-">
         <h1 className="text-4xl font-bold">Inicio de sesion</h1>

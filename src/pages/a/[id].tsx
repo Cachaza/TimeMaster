@@ -9,6 +9,7 @@ import "tailwindcss/tailwind.css"
 import Navbar from "../../components/navbar";
 
 import EditarAsignatura from "../../components/modalEditarAsignatura";
+import Head from "next/head";
 
 
 
@@ -31,6 +32,11 @@ const Asignatura = () => {
 
     return(
         <>
+        <Head>
+            <title>{nombre}</title>
+            
+        </Head>
+
         <Navbar />
         <div>
 

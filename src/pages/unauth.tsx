@@ -1,5 +1,6 @@
 import Navbar from "../components/navbar"
 import Link from "next/link"
+import Head from "next/head";
 
 export default function noLogin() {
 
@@ -7,6 +8,10 @@ export default function noLogin() {
 
     return(
         <>
+            <Head>
+              <title>Area restringida</title>
+              <link rel="icon" href="/favicon.ico" />
+            </Head>
             
             <Navbar />
             <div className="flex flex-col items-center justify-center min-h-screen py-2 -mt-28 px-14 text-center">

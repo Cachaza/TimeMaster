@@ -2,7 +2,7 @@ import Navbar from "../components/navbar"
 import { useState } from "react"
 import "tailwindcss/tailwind.css"
 
-import Router from "next/router";
+import Head from "next/head";
 
 
 import { getSession , useSession} from "next-auth/react"
@@ -34,6 +34,10 @@ export default function User(){
 
     return (
         <>
+        <Head>
+            <title>Tablon</title>
+            <link rel="icon" href="/favicon.ico" />
+        </Head>
         <Navbar />
 
         <div className="pb-20 font-sans h-screen w-full flex flex-row justify-center items-center text-black">
