@@ -87,11 +87,12 @@ const Cronometro: React.FC<PomodoroProps> = ({ asignaturaId }) => {
   };
 
   const handleFinish = () => {
-    setIsPaused(!isPaused);
+    if (isPaused) {
+      setIsPaused(!isPaused);
+    }
     const tiempoEnMinutos = Math.floor((timeElapsed / 1000) / 60);
-    addTime(tiempoEnMinutos);
     actualizarTiempoTotal(tiempoEnMinutos);
-    setTimeElapsed(0);
+    addTime(tiempoEnMinutos);
     Router.push('/user');
     };
 
