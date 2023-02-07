@@ -47,6 +47,12 @@ export default function Login({ getProviders, getSession, getCsrfToken }: any) {
             >
             Sign in with Discord<img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" className="inline w-6 h-6 ml-2" />
             </button>
+            <button
+            onClick={() => signIn("google")}
+            className=" p-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600 "
+            >
+            Sign in with Google<img src="https://cdn-icons-png.flaticon.com/512/281/281764.png" className="inline w-6 h-6 ml-2" />
+            </button>
           </div>
         </div>
       </div>
