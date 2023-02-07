@@ -18,17 +18,24 @@ interface PomodoroProps {
   asignaturaId: string;
 }
 
-const Pomodoro: React.FC<PomodoroProps> = ({ workTime, breakTime, asignaturaId }) => {
-  const [minutes, setMinutes] = useState(workTime);
-  const [seconds, setSeconds] = useState(0);
-  const [displayMessage, setDisplayMessage] = useState(false);
-  const [isPaused, setIsPaused] = useState(true);
-  const [showSettings, setShowSettings] = useState(false);
-
+const Pomodoro: React.FC<PomodoroProps> = ({ workTime , breakTime, asignaturaId }) => {
+  
+  workTime = workTime * 60 * 1000;
+  breakTime = breakTime * 60 * 1000;
   const tiempo = api.asignaturas.añadirTiempo.useMutation();
   const { data: sessionData } = useSession();
   const getTiempos = api.asignaturas.getTiempos.useQuery({ id: sessionData?.user.id, asignaturaId: asignaturaId });
   const actualizarTiempoTotalBase = api.asignaturas.actualizarTiempoTotal.useMutation();
+  
+
+  const [timeRemaining, setTimeRemaining] = useState<number>(workTime);
+  const [isRunning, setIsRunning] = useState<boolean>(false);
+  const [startTime, setStartTime] = useState<number | null>(null);
+  const [isBreak, setIsBreak] = useState<boolean>(false);
+  const [elapsedTime, setElapsedTime] = useState(0);
+
+
+  
 
 
   async function addTime(tiempoE: any, tiempoT: any) {
@@ -67,16 +74,26 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime, breakTime, asignaturaId }
 
   }
 
-  async function finalizarTiempo() {
-    if(!displayMessage){
-      const tiempoEstudiado = workTime - minutes;
-      await addTime(tiempoEstudiado, breakTime);
-      await actualizarTiempoTotal(tiempoEstudiado);
-      Router.push('/user');
+   function finalizarTiempo() {
+    if(!isBreak){
+      let tiempo
+      
+      const tiempoEstudiado = (workTime / (60* 1000)) - minutes;
+      if(tiempoEstudiado <= 0){
+        tiempo = 0;
+      }else{
+        tiempo = tiempoEstudiado - 1;
+      }
+
+      actualizarTiempoTotal((tiempo));
+      addTime((tiempo), (breakTime / (60 * 1000)));
       
     }
+    Router.push('/user');
   }
+ 
 
+  
 
 
 
@@ -87,97 +104,81 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime, breakTime, asignaturaId }
 
 
   useEffect(() => {
-    let interval = setInterval(() => {
-      clearInterval(interval);
+    if (isRunning) {
+      const intervalId = setInterval(() => {
+        setTimeRemaining(prevTimeRemaining => {
+          const timeElapsed = Date.now() - startTime! + elapsedTime;
+          const targetTime = isBreak ? breakTime : workTime;
+          const newTimeRemaining = targetTime - timeElapsed;
+          if (newTimeRemaining <= 0) {
+            if(!isBreak){
+              actualizarTiempoTotal((workTime / (60* 1000)));
+              addTime((workTime / (60* 1000)), (breakTime / (60 * 1000)));
+              console.log("tiempo añadido");
+            }
+            let audio = new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3');
+            audio.play();
+            setIsBreak(!isBreak);
+            setTimeRemaining(isBreak ? breakTime : workTime);
+            setElapsedTime(0);
+            setStartTime(Date.now());
+            return isBreak ? breakTime : workTime;
+          }
+          return newTimeRemaining;
+        });
+      }, 100);
+      return () => clearInterval(intervalId);
+    }
+  }, [isRunning, startTime, elapsedTime, isBreak]);
 
-      if (isPaused) {
-        return;
-      }
-      
-      if (seconds === 0) {
-        if (minutes !== 0) {
-          setSeconds(59);
-          setMinutes(minutes - 1);
-        } else {
 
-          // set break
-          let minutes = displayMessage ? workTime : breakTime;
-          let seconds = 0;
+  const handleStart = () => {
+    setIsRunning(true);
+    if (!startTime) {
+      setStartTime(Date.now());
+    } else {
+      setElapsedTime(Date.now() - startTime + elapsedTime);
+      setStartTime(Date.now());
+    }
+  };
+  
+  const handleStop = () => {
+    setIsRunning(false);
+    setElapsedTime(elapsedTime + (Date.now() - startTime!));
+    setStartTime(null);
+  };
 
-          if (!displayMessage) {
-            addTime(workTime, breakTime);
-            actualizarTiempoTotal(workTime);
-
-          } 
-
-
-          let audio = new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3');
-          audio.play();
-                   
-          setSeconds(seconds);
-          setMinutes(minutes);
-          setDisplayMessage(!displayMessage);
-        }
-      } else {
-        setSeconds(seconds - 1);
-      }
-    }, 1000);
-  }, [seconds, isPaused, displayMessage]);
-
-  let totalSeconds = displayMessage ? breakTime * 60 : workTime * 60;
-  const elapsedSeconds = seconds + minutes * 60;
-  const percentage = (elapsedSeconds / totalSeconds) * 100;
+  const seconds = Math.floor(timeRemaining / 1000) % 60;
+  const minutes = Math.floor(timeRemaining / (1000 * 60)) % 60;
+  const percentage = (timeRemaining / (isBreak ? breakTime : workTime)) * 100;
 
   const timerMinutes = minutes < 10 ? `0${minutes}` : minutes;
   const timerSeconds = seconds < 10 ? `0${seconds}` : seconds;
 
-  const handleSettingsClick = () => {
-    setShowSettings(true);
-  };
-
-  const handleCloseSettings = () => {
-    setShowSettings(false);
-  };
-
-  const handleStartStopClick = () => {
-    setIsPaused(!isPaused);
-  };
-
+ 
 
 
 
   return (
-    <div className="pomodoro text-center columns-sm">
-      <div className="text-3xl pb-6">
-        {displayMessage ? "Descanso" : "Trabajo"}
-      </div>
-      <div className="timer">
+    <div>
+      <p>
+        <h1>{isBreak ? 'Break' : 'Work'}</h1>
         <CircularProgressbarWithChildren
           value={percentage}
-          text={timerMinutes + ':' + timerSeconds}
           styles={buildStyles({
-            textColor: "#fff",
-            pathColor: "#fff",
-            trailColor: "transparent",
+            pathColor: isBreak ? '#f00' : '#0f0',
+            trailColor: '#000',
           })}
+          text={`${String(timerMinutes)}:${String(timerSeconds)}`}
         />
-      </div>
-      <div className="buttons pt-5">
-        <button
-          className="btn btn-primary pr-2"
-          onClick={handleStartStopClick}
-        >
-          {isPaused ? "Iniciar" : "Pausar"}
-        </button>
-        <button
-          className="btn btn-primary pl-2"
-          onClick={finalizarTiempo}
-        >
-          Finalizar
-        </button>
         
+      </p>
+      <div className="buttons pt-5 text-center">
+        <button onClick={isRunning ? handleStop : handleStart} className='btn btn-primary pr-2 font-bold text-center'>
+          {isRunning ? 'Stop' : 'Start'}
+        </button>
+        <button onClick={finalizarTiempo} className='btn btn-primary pl-2 font-bold text-center'>Finalizar</button>
       </div>
-      
     </div>
   );
 };

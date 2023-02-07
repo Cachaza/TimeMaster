@@ -7,7 +7,7 @@
 
 /** @type {import("next").NextConfig} */
 const config = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   /* If trying out the experimental appDir, comment the i18n config out
    * @see https://github.com/vercel/next.js/issues/41980 */
   i18n: {
@@ -19,7 +19,12 @@ const config = {
       {
         protocol: "https",
         hostname: "cdn.discordapp.com"
+      },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com"
       }
+
 
     ],
     domains:["cdn.discordapp.com"]
