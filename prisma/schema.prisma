@@ -34,7 +34,7 @@ model Account {
     user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@unique([provider, providerAccountId])
-    @@index([userId])
+
 }
 
 model Session {
@@ -70,7 +70,7 @@ model Asignaturas{
 
 
     user User @relation(fields: [propietarioId], references: [id], onDelete: Cascade)
-    @@index([propietarioId])
+
 }
 
 model TiemposIndividuales{
@@ -81,7 +81,7 @@ model TiemposIndividuales{
     tiempoTotal Int
 
     asignatura Asignaturas @relation(fields: [asignaturaId], references: [asignaturaId], onDelete: Cascade)
-    @@index([asignaturaId])
+
 }
 model VerificationToken {
     identifier String
