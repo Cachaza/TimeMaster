@@ -69,7 +69,7 @@ declare module "next-auth" {
   },
   pages: {
     signIn: '/login',
-    newUser: '/edit-user'
+    newUser: '/user'
   },
 
 };

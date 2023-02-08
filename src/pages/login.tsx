@@ -3,16 +3,31 @@ import { useState } from "react"
 import "tailwindcss/tailwind.css"
 import Head from "next/head";
 
-import { getProviders, signIn, getCsrfToken, getSession , useSession} from "next-auth/react"
+import { getProviders, signIn, getCsrfToken, getSession , useSession, GetSessionParams} from "next-auth/react"
 
 
 
 
-export default function Login({ getProviders, getSession, getCsrfToken }: any) {
+export default  function Login({ getProviders, getSession, getCsrfToken }: any) {
   const { data: sessionData } = useSession();
   const [error, setError] = useState()
 
 
+  async function loginGoogle() {
+    try {
+      await signIn("google")
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async function loginDiscord() {
+    try {
+      await signIn("discord")
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
 
   if (sessionData) {
@@ -42,13 +57,13 @@ export default function Login({ getProviders, getSession, getCsrfToken }: any) {
           
           <div className="p-2">
             <button
-            onClick={() => signIn("discord")}
+            onClick={() => void loginDiscord()}
             className=" p-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 "
             >
             Sign in with Discord<img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" className="inline w-6 h-6 ml-2" />
             </button>
             <button
-            onClick={() => signIn("google")}
+            onClick={() => void loginGoogle()}
             className=" p-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600 "
             >
             Sign in with Google<img src="https://cdn-icons-png.flaticon.com/512/281/281764.png" className="inline w-6 h-6 ml-2" />
@@ -60,7 +75,7 @@ export default function Login({ getProviders, getSession, getCsrfToken }: any) {
   )
 }
 
-export async function getServerSideProps(context: any) {
+export async function getServerSideProps(context: GetSessionParams | undefined) {
   const session = await getSession(context);
   
   if (session) {

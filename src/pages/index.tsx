@@ -3,6 +3,7 @@ import Head from "next/head";
 import { signIn, getSession } from "next-auth/react";
 import Navbar from "../components/navbar";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import Link from "next/link";
 
 
 const Home: NextPage = () => {
@@ -28,12 +29,9 @@ const Home: NextPage = () => {
           <div className="text-xl text-white pb-5">
             Por favor inicia session
           </div>
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            onClick={() => signIn()}
-          >
-            Iniciar sesion
-          </button>
+          <div className="flex flex-col items-center p-5 bg-white rounded-xl">
+            <Link href="/login">Inicia session</Link>
+          </div>
         </main>
       </>
     );

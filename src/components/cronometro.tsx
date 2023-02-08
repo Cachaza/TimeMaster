@@ -86,14 +86,19 @@ const Cronometro: React.FC<PomodoroProps> = ({ asignaturaId }) => {
     setIsPaused(!isPaused);
   };
 
-  const handleFinish = () => {
+  const handleFinish = async () => {
     if (isPaused) {
       setIsPaused(!isPaused);
     }
-    const tiempoEnMinutos = Math.floor((timeElapsed / 1000) / 60);
-    actualizarTiempoTotal(tiempoEnMinutos);
-    addTime(tiempoEnMinutos);
-    Router.push('/user');
+    
+  const tiempoEnMinutos = Math.floor((timeElapsed / 1000) / 60);
+    try {
+      await actualizarTiempoTotal(tiempoEnMinutos);
+      await addTime(tiempoEnMinutos);
+      await Router.push('/user');
+    } catch (error) {
+      console.log(error);
+    }
     };
 
 
@@ -121,7 +126,13 @@ const Cronometro: React.FC<PomodoroProps> = ({ asignaturaId }) => {
         </button>
         <button
           className="btn btn-primary pl-2 font-bold text-center"
-          onClick={handleFinish}
+          onClick={() => {
+            try{
+              handleFinish
+            } catch(error) {
+              console.log(error);
+            }
+          }}
         >
           Finalizar
         </button>

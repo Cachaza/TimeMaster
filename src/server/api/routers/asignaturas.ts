@@ -21,12 +21,12 @@ export const ruterAsignaturas = createTRPCRouter({
         }
       })
       return {
-        asignaturas: (await asignaturas).map((asignatura: any) => {
+        asignaturas: (await asignaturas).map((asignatura) => {
             return {
                 
                 nombre: asignatura.nombre,
                 tiempoTotal: asignatura.tiempoTotal,
-                tiempoObjetivo: asignatura.tiempoObjetivo,
+                tiempoObjetivo: asignatura.timepoObjetivo,
                 asignaturaId: asignatura.asignaturaId
             }
         })

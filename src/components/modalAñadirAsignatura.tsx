@@ -60,14 +60,20 @@ export default function AñadirBton() {
                         Añadir asignatura
                       </Dialog.Title>
                       <div className="mt-2">
-                      <form onSubmit={async (e) => {
+                      <form onSubmit={() => {
+                        try{
+                          async (e: { preventDefault: () => void }) => {
                             e.preventDefault()
                             await crear.mutateAsync({
                                 nombre: nombre,
                                 id: sessionData?.user?.id
                             })
-                            Router.push("/user");
+                            await Router.push("/user");
                             window.location.reload();
+                          }
+                          } catch (e) {
+                            console.log(e)
+                          }
 
                                         
                         }}>

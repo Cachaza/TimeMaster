@@ -38,7 +38,7 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime , breakTime, asignaturaId 
   
 
 
-  async function addTime(tiempoE: any, tiempoT: any) {
+  async function addTime(tiempoE: number, tiempoT: number) {
     await tiempo.mutateAsync({
       asignaturaId: asignaturaId,
       id: sessionData?.user?.id,
@@ -74,7 +74,7 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime , breakTime, asignaturaId 
 
   }
 
-   function finalizarTiempo() {
+   async function finalizarTiempo() {
     if(!isBreak){
       let tiempo
       
@@ -85,11 +85,11 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime , breakTime, asignaturaId 
         tiempo = tiempoEstudiado - 1;
       }
 
-      actualizarTiempoTotal((tiempo));
-      addTime((tiempo), (breakTime / (60 * 1000)));
+      await actualizarTiempoTotal((tiempo));
+      await addTime((tiempo), (breakTime / (60 * 1000)));
       
     }
-    Router.push('/user');
+    await Router.push('/user');
   }
  
 
@@ -105,31 +105,34 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime , breakTime, asignaturaId 
 
   useEffect(() => {
     if (isRunning) {
-      const intervalId = setInterval(() => {
-        setTimeRemaining(prevTimeRemaining => {
-          const timeElapsed = Date.now() - startTime! + elapsedTime;
-          const targetTime = isBreak ? breakTime : workTime;
-          const newTimeRemaining = targetTime - timeElapsed;
-          if (newTimeRemaining <= 0) {
-            if(!isBreak){
-              actualizarTiempoTotal((workTime / (60* 1000)));
-              addTime((workTime / (60* 1000)), (breakTime / (60 * 1000)));
+      const intervalId = setInterval(() => { void (async () => {
+        const timeElapsed = Date.now() - startTime! + elapsedTime;
+        const targetTime = isBreak ? breakTime : workTime;
+        const newTimeRemaining = targetTime - timeElapsed;
+        if (newTimeRemaining <= 0) {
+          if(!isBreak){
+            try{
+              await actualizarTiempoTotal((workTime / (60* 1000)));
+              await addTime((workTime / (60* 1000)), (breakTime / (60 * 1000)));
               console.log("tiempo añadido");
+            } catch (e){
+              console.log(e)
             }
-            let audio = new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3');
-            audio.play();
-            setIsBreak(!isBreak);
-            setTimeRemaining(isBreak ? breakTime : workTime);
-            setElapsedTime(0);
-            setStartTime(Date.now());
-            return isBreak ? breakTime : workTime;
           }
-          return newTimeRemaining;
-        });
-      }, 100);
+          const audio = new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3');
+          await audio.play();
+          setIsBreak(!isBreak);
+          setTimeRemaining(isBreak ? breakTime : workTime);
+          setElapsedTime(0);
+          setStartTime(Date.now());
+        } else {
+          setTimeRemaining(newTimeRemaining);
+        }
+        } ) } , 100);
       return () => clearInterval(intervalId);
     }
   }, [isRunning, startTime, elapsedTime, isBreak]);
+  
 
 
   const handleStart = () => {
@@ -177,7 +180,13 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime , breakTime, asignaturaId 
         <button onClick={isRunning ? handleStop : handleStart} className='btn btn-primary pr-2 font-bold text-center'>
           {isRunning ? 'Stop' : 'Start'}
         </button>
-        <button onClick={finalizarTiempo} className='btn btn-primary pl-2 font-bold text-center'>Finalizar</button>
+        <button onClick={() => {
+          try{
+            finalizarTiempo
+          } catch (e){
+            console.log(e)
+          }
+        }} className='btn btn-primary pl-2 font-bold text-center'>Finalizar</button>
       </div>
     </div>
   );

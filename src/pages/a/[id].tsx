@@ -3,7 +3,7 @@ import { api } from "../../utils/api";
 import Pomodoro from "../../components/pomodoro";
 import Cronometro from "../../components/cronometro";
 
-import { getSession , useSession} from "next-auth/react"
+import { GetSessionParams, getSession , useSession} from "next-auth/react"
 import { useState } from "react"
 import "tailwindcss/tailwind.css"
 import Navbar from "../../components/navbar";
@@ -117,7 +117,7 @@ const Asignatura = () => {
 export default Asignatura;
 
 
-export async function getServerSideProps(context: any) {
+export async function getServerSideProps(context: GetSessionParams | undefined) {
     const session = await getSession(context);
     
     if (!session) {
