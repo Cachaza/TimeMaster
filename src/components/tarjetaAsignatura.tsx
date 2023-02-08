@@ -35,7 +35,7 @@ const TarjetaAsignatura: React.FC<Asignatura> = ({ nombre, asignaturaId, tiempoO
     return (
         <Link
             className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 col-span-12 sm:col-span-6 md:col-span-3"
-            href={`/asignatura/${asignaturaId}`}
+            href={`/a/${asignaturaId}`}
             
         >
 

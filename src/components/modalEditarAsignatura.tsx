@@ -27,7 +27,17 @@ const EditarAsignatura: React.FC<Asignatura> = ({Inombre, ItiempoTrabajo, Itiemp
   const [timepoObjetivo, setTimepoObjetivo] = useState(ItiempoObjetivo ?? 0);
   const editar = api.asignaturas.modificarAsignatura.useMutation();
 
-
+  async function editarAsignatura() {
+    await editar.mutateAsync({
+      asignaturaId: IasignaturaId,
+      id: sessionData?.user?.id,
+      nombre: nombre,
+      tiempoTrabajo: tiempoTrabajo,
+      tiempoDescanso: tiempoDescanso,
+      tiempoObjetivo: timepoObjetivo,
+    });
+    window.location.reload();
+  }
   return (
     <>
         <button
@@ -75,23 +85,9 @@ const EditarAsignatura: React.FC<Asignatura> = ({Inombre, ItiempoTrabajo, Itiemp
                         Editar asignatura
                       </Dialog.Title>
                       <div className="mt-2">
-                      <form onSubmit={() => {
-                        async (e: { preventDefault: () => void }) => {
-                          e.preventDefault()
-                          await editar.mutateAsync({
-                              nombre: nombre,
-                              tiempoTrabajo: tiempoTrabajo,
-                              tiempoDescanso: tiempoDescanso,
-                              tiempoObjetivo: timepoObjetivo,
-                              id: sessionData?.user?.id,
-                              asignaturaId: IasignaturaId
-
-                          })
-                          window.location.reload();
-                      }
-
-                                        
-                        }}>
+                      <form onSubmit={
+                            () => void 
+                            editarAsignatura()}>
                             <div className="flex flex-col items-center justify-center py-2 px-14 text-center text-black">
                                 <p className="p-1 text-xl">Nombre</p>
                                 <div className="pt-3">

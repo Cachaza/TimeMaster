@@ -16,6 +16,19 @@ export default function AñadirBton() {
   
   const { data: sessionData } = useSession();
 
+  async function crearAsignatura() {
+    try {
+      await crear.mutateAsync({
+        nombre: nombre,
+        id: sessionData?.user?.id,
+      });
+      setOpen(false);
+      Router.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
 
   return (
     <>
@@ -60,23 +73,10 @@ export default function AñadirBton() {
                         Añadir asignatura
                       </Dialog.Title>
                       <div className="mt-2">
-                      <form onSubmit={() => {
-                        try{
-                          async (e: { preventDefault: () => void }) => {
-                            e.preventDefault()
-                            await crear.mutateAsync({
-                                nombre: nombre,
-                                id: sessionData?.user?.id
-                            })
-                            await Router.push("/user");
-                            window.location.reload();
-                          }
-                          } catch (e) {
-                            console.log(e)
-                          }
-
-                                        
-                        }}>
+                      <form onSubmit={
+                            () => void crearAsignatura()
+                            }
+                      >
                             <div className="flex flex-col items-center justify-center py-2 px-14 text-center">
                                 <h1 className="text-4xl font-bold">Crear Asignatura</h1>
                                 <p className="mt-3 text-2xl">Por favor ingrese el nombre de la asignatura</p>
