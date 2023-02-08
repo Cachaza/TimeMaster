@@ -26,10 +26,10 @@ const Home: NextPage = () => {
             <p>{hello.data ? hello.data.name : "Loading..."}</p>
           </div>
           */}
-          <div className="text-xl text-white pb-5">
+          <div className="text-xl bg-blue-700 text-white pb-5">
             Por favor inicia session
           </div>
-          <div className="flex flex-col items-center p-5 bg-white rounded-xl">
+          <div className="flex flex-col items-center p-5 bg-blue rounded-xl">
             <Link href="/login">Inicia session</Link>
           </div>
         </main>
