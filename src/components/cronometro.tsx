@@ -126,13 +126,7 @@ const Cronometro: React.FC<PomodoroProps> = ({ asignaturaId }) => {
         </button>
         <button
           className="btn btn-primary pl-2 font-bold text-center"
-          onClick={() => {
-            try{
-              handleFinish
-            } catch(error) {
-              console.log(error);
-            }
-          }}
+          onClick={() => void handleFinish()}
         >
           Finalizar
         </button>

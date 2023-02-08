@@ -105,30 +105,28 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime , breakTime, asignaturaId 
 
   useEffect(() => {
     if (isRunning) {
-      const intervalId = setInterval(() => { void (async () => {
-        const timeElapsed = Date.now() - startTime! + elapsedTime;
-        const targetTime = isBreak ? breakTime : workTime;
-        const newTimeRemaining = targetTime - timeElapsed;
-        if (newTimeRemaining <= 0) {
-          if(!isBreak){
-            try{
-              await actualizarTiempoTotal((workTime / (60* 1000)));
-              await addTime((workTime / (60* 1000)), (breakTime / (60 * 1000)));
+      const intervalId = setInterval(() => {
+        setTimeRemaining(() => {
+          const timeElapsed = Date.now() - startTime! + elapsedTime;
+          const targetTime = isBreak ? breakTime : workTime;
+          const newTimeRemaining = targetTime - timeElapsed;
+          if (newTimeRemaining <= 0) {
+            if(!isBreak){ 
+              () => void actualizarTiempoTotal((workTime / (60* 1000)));
+              () => void addTime((workTime / (60* 1000)), (breakTime / (60 * 1000)));
               console.log("tiempo añadido");
-            } catch (e){
-              console.log(e)
             }
+            const audio = new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3');
+            () => void audio.play();
+            setIsBreak(!isBreak);
+            setTimeRemaining(isBreak ? breakTime : workTime);
+            setElapsedTime(0);
+            setStartTime(Date.now());
+            return isBreak ? breakTime : workTime;
           }
-          const audio = new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3');
-          await audio.play();
-          setIsBreak(!isBreak);
-          setTimeRemaining(isBreak ? breakTime : workTime);
-          setElapsedTime(0);
-          setStartTime(Date.now());
-        } else {
-          setTimeRemaining(newTimeRemaining);
-        }
-        } ) } , 100);
+          return newTimeRemaining;
+        });
+      }, 100);
       return () => clearInterval(intervalId);
     }
   }, [isRunning, startTime, elapsedTime, isBreak]);
@@ -180,13 +178,7 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime , breakTime, asignaturaId 
         <button onClick={isRunning ? handleStop : handleStart} className='btn btn-primary pr-2 font-bold text-center'>
           {isRunning ? 'Stop' : 'Start'}
         </button>
-        <button onClick={() => {
-          try{
-            finalizarTiempo
-          } catch (e){
-            console.log(e)
-          }
-        }} className='btn btn-primary pl-2 font-bold text-center'>Finalizar</button>
+        <button onClick={() => void finalizarTiempo()} className='btn btn-primary pl-2 font-bold text-center'>Finalizar</button>
       </div>
     </div>
   );
