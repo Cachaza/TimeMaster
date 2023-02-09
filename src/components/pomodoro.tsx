@@ -11,6 +11,7 @@ import useSound from 'use-sound';
 
 
 import ReactSlider from 'react-slider';
+import { promise } from 'zod';
 
 interface PomodoroProps {
   workTime: number;
@@ -70,13 +71,11 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime , breakTime, asignaturaId 
       id: sessionData?.user?.id,
       tiempoTotal: antiguoTiempo + trabajado,
     });
-       
-
   }
 
-   async function finalizarTiempo() {
+   function finalizarTiempo() {
     if(!isBreak){
-      let tiempo
+      let tiempo: number
       
       const tiempoEstudiado = (workTime / (60* 1000)) - minutes;
       if(tiempoEstudiado <= 0){
@@ -85,11 +84,11 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime , breakTime, asignaturaId 
         tiempo = tiempoEstudiado - 1;
       }
 
-      await actualizarTiempoTotal((tiempo));
-      await addTime((tiempo), (breakTime / (60 * 1000)));
+      () => void Promise.resolve(actualizarTiempoTotal((tiempo)));
+      () => void addTime((tiempo), (breakTime / (60 * 1000)));
       
     }
-    await Router.push('/user');
+    () => void Router.push('/user');
   }
  
 
