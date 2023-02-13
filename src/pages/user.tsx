@@ -6,9 +6,9 @@ import Head from "next/head";
 
 
 import { getSession , useSession} from "next-auth/react"
-import AñadirBton from "../components/modalAñadirAsignatura";
+import AñadirBton from "../components/addSubjectModal";
 import { api } from "../utils/api"
-import TarjetaAsignatura from "../components/tarjetaAsignatura";
+import SubjectCard from "../components/subjectCard";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 
 
@@ -52,7 +52,7 @@ export default function User(){
                     {asignaturas.isLoading && <div className="text-center text-xl font-medium align-middle">Cargando...</div>}
                     {asignaturas.data?.map((asignatura) => (
                         
-                        <TarjetaAsignatura asignaturaId={asignatura.asignaturaId} nombre={asignatura.nombre} tiempoObjetivo={asignatura.timepoObjetivo ?? 0} tiempoTotal={asignatura.tiempoTotal ?? 0}/>
+                        <SubjectCard asignaturaId={asignatura.asignaturaId} nombre={asignatura.nombre} tiempoObjetivo={asignatura.timepoObjetivo ?? 0} tiempoTotal={asignatura.tiempoTotal ?? 0}/>
                     ))}
 
                 </div>

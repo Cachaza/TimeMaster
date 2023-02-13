@@ -2,7 +2,7 @@ import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { api } from '../utils/api'
 import { useSession } from 'next-auth/react'
-import DeleteButton from './modalEliminarAsignatura'
+import DeleteButton from './deleteSubjectModal'
 import ReactSlider from 'react-slider'
 
 

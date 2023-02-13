@@ -12,7 +12,7 @@ interface Asignatura {
 }
 
 
-const TarjetaAsignatura: React.FC<Asignatura> = ({ nombre, asignaturaId, tiempoObjetivo, tiempoTotal}) => {
+const SubjectCard: React.FC<Asignatura> = ({ nombre, asignaturaId, tiempoObjetivo, tiempoTotal}) => {
 
 
     function pasarHoraOMinutos(tiempo: number) {
@@ -43,4 +43,4 @@ const TarjetaAsignatura: React.FC<Asignatura> = ({ nombre, asignaturaId, tiempoO
     )
 }
 
-export default TarjetaAsignatura;
+export default SubjectCard;

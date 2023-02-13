@@ -1,14 +1,14 @@
 import Router, {useRouter} from "next/router";
 import { api } from "../../utils/api";
 import Pomodoro from "../../components/pomodoro";
-import Cronometro from "../../components/cronometro";
+import Chronometer from "../../components/chronometer";
 
 import { getSession , useSession} from "next-auth/react"
 import { useState } from "react"
 import "tailwindcss/tailwind.css"
 import Navbar from "../../components/navbar";
 
-import EditarAsignatura from "../../components/modalEditarAsignatura";
+import EditarAsignatura from "../../components/editSubjectModal";
 import Head from "next/head";
 
 
@@ -82,7 +82,7 @@ const Asignatura = () => {
                         <div className="px-4 py-5 flex-auto">
                             <div className="tab-content tab-space">
                             <div className={openTab === 1 ? "block" : "hidden"}>
-                                <Cronometro asignaturaId={String(id)} />
+                                <Chronometer asignaturaId={String(id)} />
                             </div>
                             <div className={openTab === 2 ? "block" : "hidden"}>
                                 <Pomodoro workTime={ind?.tiempoTrabajo ?? 25} breakTime={ind?.tiempoDescanso ?? 5} asignaturaId={String(id)} />

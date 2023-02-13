@@ -11,7 +11,7 @@ interface PomodoroProps {
   asignaturaId: string;
 }
 
-const Cronometro: React.FC<PomodoroProps> = ({ asignaturaId }) => {
+const Chronometer: React.FC<PomodoroProps> = ({ asignaturaId }) => {
 
   const [isPaused, setIsPaused] = useState(true);
 
@@ -132,4 +132,4 @@ const Cronometro: React.FC<PomodoroProps> = ({ asignaturaId }) => {
   );
 };
 
-export default Cronometro;
+export default Chronometer;
