@@ -2,7 +2,6 @@ import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { api } from '../utils/api'
 import { useSession } from 'next-auth/react'
-import Router  from 'next/router'
 
 
 
@@ -60,13 +59,13 @@ export default function AddButton() {
                         Añadir asignatura
                       </Dialog.Title>
                       <div className="mt-2">
-                      <form onSubmit={async (e) => {
+                        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+                        <form onSubmit={async (e) => {
                             e.preventDefault()
                             await crear.mutateAsync({
                                 nombre: nombre,
                                 id: sessionData?.user?.id
                             })
-                            Router.push("/user");
                             window.location.reload();
 
                                         
