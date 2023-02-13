@@ -6,7 +6,7 @@ import Head from "next/head";
 
 
 import { getSession , useSession} from "next-auth/react"
-import AñadirBton from "../components/addSubjectModal";
+import AddButton from "../components/addSubjectModal";
 import { api } from "../utils/api"
 import SubjectCard from "../components/subjectCard";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
@@ -57,7 +57,7 @@ export default function User(){
 
                 </div>
                 <div className="text-center py-4">
-                    <AñadirBton />
+                    <AddButton />
                 </div>
             </div>
             </div>

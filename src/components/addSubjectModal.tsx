@@ -7,7 +7,7 @@ import Router  from 'next/router'
 
 
 
-export default function AñadirBton() {
+export default function AddButton() {
   const [open, setOpen] = useState(false)
   const crear = api.asignaturas.createAsignatura2.useMutation();
   const [nombre, setNombre] = useState("");

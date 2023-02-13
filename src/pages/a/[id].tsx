@@ -82,7 +82,7 @@ const Asignatura = () => {
                         <div className="px-4 py-5 flex-auto">
                             <div className="tab-content tab-space">
                             <div className={openTab === 1 ? "block" : "hidden"}>
-                                <Chronometer asignaturaId={String(id)} />
+                                <Chronometer subjectId={String(id)} />
                             </div>
                             <div className={openTab === 2 ? "block" : "hidden"}>
                                 <Pomodoro workTime={ind?.tiempoTrabajo ?? 25} breakTime={ind?.tiempoDescanso ?? 5} asignaturaId={String(id)} />

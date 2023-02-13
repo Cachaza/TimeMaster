@@ -1,6 +1,6 @@
 import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useSession } from 'next-auth/react'
 
 import { api } from "../utils/api";
@@ -8,19 +8,18 @@ import Router from 'next/router';
 
 
 interface PomodoroProps {
-  asignaturaId: string;
+  subjectId: string;
 }
 
-const Chronometer: React.FC<PomodoroProps> = ({ asignaturaId }) => {
+const Chronometer: React.FC<PomodoroProps> = ({ subjectId }) => {
 
   const [isPaused, setIsPaused] = useState(true);
 
 
   const tiempo = api.asignaturas.añadirTiempo.useMutation();
   const { data: sessionData } = useSession();
-  const getTiempos = api.asignaturas.getTiempos.useQuery({ id: sessionData?.user.id, asignaturaId: asignaturaId });
+  const getTiempos = api.asignaturas.getTiempos.useQuery({ id: sessionData?.user.id, asignaturaId: subjectId });
   const actualizarTiempoTotalBase = api.asignaturas.actualizarTiempoTotal.useMutation();
-  const [referenceTime, setReferenceTime] = useState(Date.now());
   const [timeElapsed, setTimeElapsed] = useState<number>(0);
   const [startTime, setStartTime] = useState<number | null>(null);
 
@@ -28,14 +27,14 @@ const Chronometer: React.FC<PomodoroProps> = ({ asignaturaId }) => {
 
   async function addTime(tiempoE: number) {
     await tiempo.mutateAsync({
-      asignaturaId: asignaturaId,
+      asignaturaId: subjectId,
       id: sessionData?.user?.id,
       tiempo: tiempoE,
       tiempoTotal: tiempoE,
     });
   }
 
-  function getSumaTiempos() {
+  function getTimesAdded() {
 
     if (getTiempos.data) {    
         let suma = 0;     
@@ -50,11 +49,11 @@ const Chronometer: React.FC<PomodoroProps> = ({ asignaturaId }) => {
 
   }
 
-  async function actualizarTiempoTotal(trabajado: number) {
-    const antiguoTiempo = getSumaTiempos();
+  async function updateTotalTime(trabajado: number) {
+    const antiguoTiempo = getTimesAdded();
 
     await actualizarTiempoTotalBase.mutateAsync({
-      asignaturaId: asignaturaId,
+      asignaturaId: subjectId,
       id: sessionData?.user?.id,
       tiempoTotal: antiguoTiempo + trabajado,
     });
@@ -90,12 +89,11 @@ const Chronometer: React.FC<PomodoroProps> = ({ asignaturaId }) => {
     if (isPaused) {
       setIsPaused(!isPaused);
     }
-    const tiempoEnMinutos = Math.floor((timeElapsed / 1000) / 60);
-    actualizarTiempoTotal(tiempoEnMinutos);
-    addTime(tiempoEnMinutos);
-    Router.push('/user');
-    };
-
+    const timeInMinutes = Math.floor((timeElapsed / 1000) / 60);
+    void updateTotalTime(timeInMinutes).then(r => console.log(r));
+    void addTime(timeInMinutes);
+    void Router.push('/user');
+  };
 
 
 
