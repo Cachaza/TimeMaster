@@ -10,6 +10,7 @@ import Navbar from "../../components/navbar";
 
 import EditarAsignatura from "../../components/editSubjectModal";
 import Head from "next/head";
+import { GetServerSidePropsContext } from "next";
 
 
 
@@ -117,7 +118,7 @@ const Asignatura = () => {
 export default Asignatura;
 
 
-export async function getServerSideProps(context: any) {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
     const session = await getSession(context);
     
     if (!session) {
