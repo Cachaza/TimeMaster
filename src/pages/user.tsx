@@ -52,7 +52,7 @@ export default function User(){
                     {asignaturas.isLoading && <div className="text-center text-xl font-medium align-middle">Cargando...</div>}
                     {asignaturas.data?.map((asignatura) => (
                         
-                        <SubjectCard asignaturaId={asignatura.asignaturaId} nombre={asignatura.nombre} tiempoObjetivo={asignatura.timepoObjetivo ?? 0} tiempoTotal={asignatura.tiempoTotal ?? 0}/>
+                        <SubjectCard asignaturaId={asignatura.asignaturaId} nombre={asignatura.nombre} tiempoObjetivo={asignatura.timepoObjetivo ?? 0} tiempoTotal={asignatura.tiempoTotal ?? 0} key={asignatura.asignaturaId} />
                     ))}
 
                 </div>
