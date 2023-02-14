@@ -24,7 +24,7 @@ export default function DeleteButton({subjectId}: Props) {
       asignaturaId: subjectId,
       id: sessionData?.user?.id,
     });
-    void Router.push('/dashboard');
+    void Router.push('/user');
   }
 
 
