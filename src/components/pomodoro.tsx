@@ -80,11 +80,11 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime , breakTime, asignaturaId 
         tiempo = tiempoEstudiado - 1;
       }
 
-      actualizarTiempoTotal((tiempo));
-      addTime((tiempo), (breakTime / (60 * 1000)));
+      void actualizarTiempoTotal((tiempo));
+      void addTime((tiempo), (breakTime / (60 * 1000)));
       
     }
-    Router.push('/user');
+    void Router.push('/user');
   }
  
 
@@ -107,12 +107,12 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime , breakTime, asignaturaId 
           const newTimeRemaining = targetTime - timeElapsed;
           if (newTimeRemaining <= 0) {
             if(!isBreak){
-              actualizarTiempoTotal((workTime / (60* 1000)));
-              addTime((workTime / (60* 1000)), (breakTime / (60 * 1000)));
+              void actualizarTiempoTotal((workTime / (60* 1000)));
+              void addTime((workTime / (60* 1000)), (breakTime / (60 * 1000)));
               console.log("tiempo añadido");
             }
-            let audio = new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3');
-            audio.play();
+            const audio = new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3');
+            void audio.play();
             setIsBreak(!isBreak);
             setTimeRemaining(isBreak ? breakTime : workTime);
             setElapsedTime(0);
