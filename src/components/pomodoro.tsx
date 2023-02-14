@@ -1,16 +1,11 @@
 import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useSession } from 'next-auth/react'
 
 import { api } from "../utils/api";
 import Router from 'next/router';
-import { Icon } from '@fortawesome/fontawesome-svg-core';
 
-import useSound from 'use-sound';
-
-
-import ReactSlider from 'react-slider';
 
 interface PomodoroProps {
   workTime: number;
@@ -38,7 +33,7 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime , breakTime, asignaturaId 
   
 
 
-  async function addTime(tiempoE: any, tiempoT: any) {
+  async function addTime(tiempoE: number, tiempoT: number) {
     await tiempo.mutateAsync({
       asignaturaId: asignaturaId,
       id: sessionData?.user?.id,
