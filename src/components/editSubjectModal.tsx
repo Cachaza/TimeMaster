@@ -135,7 +135,7 @@ const EditarAsignatura: React.FC<Asignatura> = ({Inombre, ItiempoTrabajo, Itiemp
                                         </button>
                                         </div>
                                         <div className="p-3">
-                                            <DeleteButton asignaturaId={IasignaturaId}/>
+                                            <DeleteButton subjectId={IasignaturaId}/>
                                         </div>
                                     </div>
                             </div>
