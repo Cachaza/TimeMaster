@@ -21,7 +21,7 @@ export default function DeleteButton({subjectId}: Props) {
 
   function deleteSubjectButton() {
     void deleteSubject.mutateAsync({
-      asignaturaId: subjectId,
+      subjectId: subjectId,
       id: sessionData?.user?.id,
     });
     void Router.push('/user');

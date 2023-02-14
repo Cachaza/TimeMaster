@@ -63,7 +63,7 @@ export default function AddButton() {
                         <form onSubmit={async (e) => {
                             e.preventDefault()
                             await crear.mutateAsync({
-                                nombre: nombre,
+                                name: nombre,
                                 id: sessionData?.user?.id
                             })
                             window.location.reload();

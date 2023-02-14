@@ -19,7 +19,7 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime , breakTime, asignaturaId 
   breakTime = breakTime * 60 * 1000;
   const tiempo = api.asignaturas.añadirTiempo.useMutation();
   const { data: sessionData } = useSession();
-  const getTiempos = api.asignaturas.getTiempos.useQuery({ id: sessionData?.user.id, asignaturaId: asignaturaId });
+  const getTiempos = api.asignaturas.getTiempos.useQuery({ id: sessionData?.user.id, subjectId: asignaturaId });
   const actualizarTiempoTotalBase = api.asignaturas.actualizarTiempoTotal.useMutation();
   
 
@@ -35,10 +35,10 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime , breakTime, asignaturaId 
 
   async function addTime(tiempoE: number, tiempoT: number) {
     await tiempo.mutateAsync({
-      asignaturaId: asignaturaId,
+      subjectId: asignaturaId,
       id: sessionData?.user?.id,
       tiempo: tiempoE,
-      tiempoTotal: tiempoT + tiempoE,
+      totalTime: tiempoT + tiempoE,
     });
   }
 
@@ -47,7 +47,7 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime , breakTime, asignaturaId 
     if (getTiempos.data) {    
         let suma = 0;     
         for (let i = 0; i < getTiempos.data.length; i++) {
-            suma += getTiempos.data[i]?.tiempoTrabajo ?? 0;
+            suma += getTiempos.data[i]?.workedTime ?? 0;
         }
         return suma;
 
@@ -61,9 +61,9 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime , breakTime, asignaturaId 
     const antiguoTiempo = getSumaTiempos();
 
     await actualizarTiempoTotalBase.mutateAsync({
-      asignaturaId: asignaturaId,
+      subjectId: asignaturaId,
       id: sessionData?.user?.id,
-      tiempoTotal: antiguoTiempo + trabajado,
+      totalTime: antiguoTiempo + trabajado,
     });
        
 

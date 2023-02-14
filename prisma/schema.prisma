@@ -48,43 +48,43 @@ model Session {
 }
 
 model User {
-  id            String        @id @default(cuid())
+  id            String     @id @default(cuid())
   name          String?
-  email         String?       @unique
+  email         String?    @unique
   emailVerified DateTime?
   image         String?
   description   String?
   accounts      Account[]
   sessions      Session[]
-  asignaturas   Asignaturas[]
+  subjects      Subjects[]
 }
 
-model Asignaturas {
-  asignaturaId   String @id @default(cuid())
-  propietarioId  String
-  nombre         String
-  tiempoTrabajo  Int?
-  tiempoDescanso Int?
-  tiempoTotal    Int?
-  timepoObjetivo Int?
+model Subjects {
+  subjectId    String @id @default(cuid())
+  ownerId      String
+  name         String
+  workingTime  Int    @default(25)
+  restTime     Int    @default(5)
+  totalTime    Int    @default(0)
+  timeObjetive Int    @default(0)
 
-  tiemposIndividuales TiemposIndividuales[]
+  individualtimes IndividualTimes[]
 
-  user User @relation(fields: [propietarioId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
 
-  @@index([propietarioId])
+  @@index([ownerId])
 }
 
-model TiemposIndividuales {
-  id            String   @id @default(cuid())
-  asignaturaId  String
-  fecha         DateTime @updatedAt
-  tiempoTrabajo Int
-  tiempoTotal   Int
+model IndividualTimes {
+  id         String   @id @default(cuid())
+  subjectId  String
+  date       DateTime @default(now())
+  workedTime Int
+  totalTime  Int
 
-  asignatura Asignaturas @relation(fields: [asignaturaId], references: [asignaturaId], onDelete: Cascade)
+  asignatura Subjects @relation(fields: [subjectId], references: [subjectId], onDelete: Cascade)
 
-  @@index([asignaturaId])
+  @@index([subjectId])
 }
 
 model VerificationToken {

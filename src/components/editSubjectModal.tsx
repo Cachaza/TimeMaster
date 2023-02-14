@@ -30,11 +30,11 @@ const EditarAsignatura: React.FC<Asignatura> = ({Inombre, ItiempoTrabajo, Itiemp
   function editSubject() {
     void editar.mutateAsync({
       id: sessionData?.user?.id,
-      asignaturaId: IasignaturaId,
-      nombre: nombre,
+      subjectId: IasignaturaId,
+      name: nombre,
       tiempoTrabajo: tiempoTrabajo,
       tiempoDescanso: tiempoDescanso,
-      tiempoObjetivo: timepoObjetivo,
+      timeObjective: timepoObjetivo,
     });
     window.location.reload();
   }

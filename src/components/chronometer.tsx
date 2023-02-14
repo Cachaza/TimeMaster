@@ -17,7 +17,7 @@ const Chronometer: React.FC<PomodoroProps> = ({ subjectId }) => {
 
   const time = api.asignaturas.añadirTiempo.useMutation();
   const { data: sessionData } = useSession();
-  const getTiempos = api.asignaturas.getTiempos.useQuery({ id: sessionData?.user.id, asignaturaId: subjectId });
+  const getTiempos = api.asignaturas.getTiempos.useQuery({ id: sessionData?.user.id, subjectId: subjectId });
   const actualizarTiempoTotalBase = api.asignaturas.actualizarTiempoTotal.useMutation();
   const [timeElapsed, setTimeElapsed] = useState<number>(0);
   const [startTime, setStartTime] = useState<number | null>(null);
@@ -26,10 +26,10 @@ const Chronometer: React.FC<PomodoroProps> = ({ subjectId }) => {
 
   async function addTime(tiempoE: number) {
     await time.mutateAsync({
-      asignaturaId: subjectId,
+      subjectId: subjectId,
       id: sessionData?.user?.id,
       tiempo: tiempoE,
-      tiempoTotal: tiempoE,
+      totalTime: tiempoE,
     });
   }
 
@@ -38,7 +38,7 @@ const Chronometer: React.FC<PomodoroProps> = ({ subjectId }) => {
     if (getTiempos.data) {    
         let suma = 0;     
         for (let i = 0; i < getTiempos.data.length; i++) {
-            suma += getTiempos.data[i]?.tiempoTrabajo ?? 0;
+            suma += getTiempos.data[i]?.workedTime ?? 0;
         }
         return suma;
 
@@ -52,9 +52,9 @@ const Chronometer: React.FC<PomodoroProps> = ({ subjectId }) => {
     const antiguoTiempo = getTimesAdded();
 
     await actualizarTiempoTotalBase.mutateAsync({
-      asignaturaId: subjectId,
+      subjectId: subjectId,
       id: sessionData?.user?.id,
-      tiempoTotal: antiguoTiempo + trabajado,
+      totalTime: antiguoTiempo + trabajado,
     });
        
 
