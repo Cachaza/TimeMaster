@@ -43,7 +43,7 @@ export const ruterAsignaturas = createTRPCRouter({
 
     createAsignatura: publicProcedure
       .input(z.object({ id: z.string().nullish(), name: z.string().nullish()}).nullish())
-      .mutation(({ input, ctx }) => {
+      .mutation(({ input }) => {
             const prisma = new PrismaClient();
             return prisma.subjects.create({
                 data: {
@@ -57,7 +57,7 @@ export const ruterAsignaturas = createTRPCRouter({
 
     createAsignatura2: publicProcedure
       .input(z.object({ id: z.string().nullish(), name: z.string().nullish()}).nullish())
-      .mutation(({ input, ctx }) => {
+      .mutation(({ input }) => {
             const prisma = new PrismaClient();
             return prisma.user.update({
                 where: {
@@ -124,7 +124,7 @@ export const ruterAsignaturas = createTRPCRouter({
 
     modificarAsignatura: publicProcedure
       .input(z.object({ id: z.string().nullish(), subjectId: z.string(), name: z.string().nullish(), tiempoTrabajo: z.number(), tiempoDescanso: z.number(), timeObjective: z.number()}).nullish())
-      .mutation(({ input, ctx }) => {
+      .mutation(({ input }) => {
             const prisma = new PrismaClient();
             return prisma.user.update({
                 where: {
@@ -152,7 +152,7 @@ export const ruterAsignaturas = createTRPCRouter({
 
     eliminarAsignatura: publicProcedure
       .input(z.object({ id: z.string().nullish(), subjectId: z.string()}).nullish())
-      .mutation(({ input, ctx }) => {
+      .mutation(({ input }) => {
             const prisma = new PrismaClient();
             return prisma.user.update({
                 where: {
@@ -172,7 +172,7 @@ export const ruterAsignaturas = createTRPCRouter({
 
     añadirTiempo: publicProcedure
       .input(z.object({ id: z.string().nullish(), subjectId: z.string(), tiempo: z.number(), totalTime: z.number()}).nullish())
-      .mutation(({ input, ctx }) => {
+      .mutation(({ input }) => {
             const prisma = new PrismaClient();
             const tiempoAñadido = prisma.user.update({
                 where: {
