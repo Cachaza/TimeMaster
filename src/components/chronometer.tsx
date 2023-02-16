@@ -1,6 +1,5 @@
-import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useSession } from 'next-auth/react'
 
 import { api } from "../utils/api";
@@ -8,39 +7,38 @@ import Router from 'next/router';
 
 
 interface PomodoroProps {
-  asignaturaId: string;
+  subjectId: string;
 }
 
-const Cronometro: React.FC<PomodoroProps> = ({ asignaturaId }) => {
+const Chronometer: React.FC<PomodoroProps> = ({ subjectId }) => {
 
   const [isPaused, setIsPaused] = useState(true);
 
 
-  const tiempo = api.asignaturas.añadirTiempo.useMutation();
+  const time = api.asignaturas.añadirTiempo.useMutation();
   const { data: sessionData } = useSession();
-  const getTiempos = api.asignaturas.getTiempos.useQuery({ id: sessionData?.user.id, asignaturaId: asignaturaId });
+  const getTiempos = api.asignaturas.getTiempos.useQuery({ id: sessionData?.user.id, subjectId: subjectId });
   const actualizarTiempoTotalBase = api.asignaturas.actualizarTiempoTotal.useMutation();
-  const [referenceTime, setReferenceTime] = useState(Date.now());
   const [timeElapsed, setTimeElapsed] = useState<number>(0);
   const [startTime, setStartTime] = useState<number | null>(null);
 
 
 
   async function addTime(tiempoE: number) {
-    await tiempo.mutateAsync({
-      asignaturaId: asignaturaId,
+    await time.mutateAsync({
+      subjectId: subjectId,
       id: sessionData?.user?.id,
       tiempo: tiempoE,
-      tiempoTotal: tiempoE,
+      totalTime: tiempoE,
     });
   }
 
-  function getSumaTiempos() {
+  function getTimesAdded() {
 
     if (getTiempos.data) {    
         let suma = 0;     
         for (let i = 0; i < getTiempos.data.length; i++) {
-            suma += getTiempos.data[i]?.tiempoTrabajo ?? 0;
+            suma += getTiempos.data[i]?.workedTime ?? 0;
         }
         return suma;
 
@@ -50,13 +48,13 @@ const Cronometro: React.FC<PomodoroProps> = ({ asignaturaId }) => {
 
   }
 
-  async function actualizarTiempoTotal(trabajado: number) {
-    const antiguoTiempo = getSumaTiempos();
+  async function updateTotalTime(trabajado: number) {
+    const antiguoTiempo = getTimesAdded();
 
     await actualizarTiempoTotalBase.mutateAsync({
-      asignaturaId: asignaturaId,
+      subjectId: subjectId,
       id: sessionData?.user?.id,
-      tiempoTotal: antiguoTiempo + trabajado,
+      totalTime: antiguoTiempo + trabajado,
     });
        
 
@@ -86,21 +84,15 @@ const Cronometro: React.FC<PomodoroProps> = ({ asignaturaId }) => {
     setIsPaused(!isPaused);
   };
 
-  const handleFinish = async () => {
+  const handleFinish = () => {
     if (isPaused) {
       setIsPaused(!isPaused);
     }
-    
-  const tiempoEnMinutos = Math.floor((timeElapsed / 1000) / 60);
-    try {
-      await actualizarTiempoTotal(tiempoEnMinutos);
-      await addTime(tiempoEnMinutos);
-      await Router.push('/user');
-    } catch (error) {
-      console.log(error);
-    }
-    };
-
+    const timeInMinutes = Math.floor((timeElapsed / 1000) / 60);
+    void updateTotalTime(timeInMinutes).then(r => console.log(r));
+    void addTime(timeInMinutes);
+    void Router.push('/user');
+  };
 
 
 
@@ -126,7 +118,7 @@ const Cronometro: React.FC<PomodoroProps> = ({ asignaturaId }) => {
         </button>
         <button
           className="btn btn-primary pl-2 font-bold text-center"
-          onClick={() => void handleFinish()}
+          onClick={handleFinish}
         >
           Finalizar
         </button>
@@ -137,4 +129,4 @@ const Cronometro: React.FC<PomodoroProps> = ({ asignaturaId }) => {
   );
 };
 
-export default Cronometro;
+export default Chronometer;

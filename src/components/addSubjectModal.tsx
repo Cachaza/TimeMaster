@@ -2,12 +2,11 @@ import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { api } from '../utils/api'
 import { useSession } from 'next-auth/react'
-import Router  from 'next/router'
 
 
 
 
-export default function AñadirBton() {
+export default function AddButton() {
   const [open, setOpen] = useState(false)
   const crear = api.asignaturas.createAsignatura2.useMutation();
   const [nombre, setNombre] = useState("");
@@ -15,19 +14,6 @@ export default function AñadirBton() {
 
   
   const { data: sessionData } = useSession();
-
-  async function crearAsignatura() {
-    try {
-      await crear.mutateAsync({
-        nombre: nombre,
-        id: sessionData?.user?.id,
-      });
-      setOpen(false);
-      Router.reload();
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
 
   return (
@@ -73,10 +59,17 @@ export default function AñadirBton() {
                         Añadir asignatura
                       </Dialog.Title>
                       <div className="mt-2">
-                      <form onSubmit={
-                            () => void crearAsignatura()
-                            }
-                      >
+                        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+                        <form onSubmit={async (e) => {
+                            e.preventDefault()
+                            await crear.mutateAsync({
+                                name: nombre,
+                                id: sessionData?.user?.id
+                            })
+                            window.location.reload();
+
+                                        
+                        }}>
                             <div className="flex flex-col items-center justify-center py-2 px-14 text-center">
                                 <h1 className="text-4xl font-bold">Crear Asignatura</h1>
                                 <p className="mt-3 text-2xl">Por favor ingrese el nombre de la asignatura</p>

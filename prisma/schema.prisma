@@ -2,19 +2,22 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "mysql"
   url = env("DATABASE_URL")
   relationMode = "prisma"
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // Necessary for Next auth
@@ -32,62 +35,78 @@ model Account {
     id_token          String?  @db.Text
     session_state     String?
     user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-    @@unique([provider, providerAccountId])
-    @@index([userId])
+  @@unique([provider, providerAccountId])
+  @@index([userId])
 }
 
 model Session {
-    id           String   @id @default(cuid())
-    sessionToken String   @unique
-    userId       String
-    expires      DateTime
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    @@index([userId])
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    description   String?
-    accounts      Account[]
-    sessions      Session[]
-    asignaturas   Asignaturas[]
+  id            String     @id @default(cuid())
+  name          String?
+  email         String?    @unique
+  emailVerified DateTime?
+  image         String?
+  description   String?
+  accounts      Account[]
+  sessions      Session[]
+  subjects      Subjects[]
 }
 
-model Asignaturas{
-    asignaturaId String @id @default(cuid())
-    propietarioId String
-    nombre String
-    tiempoTrabajo Int?
-    tiempoDescanso Int?
-    tiempoTotal Int?
-    timepoObjetivo Int?
+model Subjects {
+  subjectId    String @id @default(cuid())
+  ownerId      String
+  name         String
+  workingTime  Int    @default(25)
+  restTime     Int    @default(5)
+  totalTime    Int    @default(0)
+  timeObjetive Int    @default(0)
 
-    tiemposIndividuales TiemposIndividuales[]
+  individualtimes IndividualTimes[]
 
+  user User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
 
-    user User @relation(fields: [propietarioId], references: [id], onDelete: Cascade)
-    @@index([propietarioId])
+  @@index([ownerId])
 }
 
-model TiemposIndividuales{
-    id String @id @default(cuid())
-    asignaturaId String 
-    fecha DateTime @updatedAt
-    tiempoTrabajo Int
-    tiempoTotal Int
+model IndividualTimes {
+  id         String   @id @default(cuid())
+  subjectId  String
+  date       DateTime @default(now())
+  workedTime Int
+  totalTime  Int
 
-    asignatura Asignaturas @relation(fields: [asignaturaId], references: [asignaturaId], onDelete: Cascade)
-    @@index([asignaturaId])
+  asignatura Subjects @relation(fields: [subjectId], references: [subjectId], onDelete: Cascade)
+
+  @@index([subjectId])
 }
+
 model VerificationToken {
-    identifier String
-    token      String   @unique
-    expires    DateTime
+  identifier String
+  token      String   @unique
+  expires    DateTime
 
-    @@unique([identifier, token])
+  @@unique([identifier, token])
 }

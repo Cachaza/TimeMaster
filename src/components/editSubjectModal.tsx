@@ -2,7 +2,7 @@ import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { api } from '../utils/api'
 import { useSession } from 'next-auth/react'
-import DeleteButton from './modalEliminarAsignatura'
+import DeleteButton from './deleteSubjectModal'
 import ReactSlider from 'react-slider'
 
 
@@ -27,23 +27,25 @@ const EditarAsignatura: React.FC<Asignatura> = ({Inombre, ItiempoTrabajo, Itiemp
   const [timepoObjetivo, setTimepoObjetivo] = useState(ItiempoObjetivo ?? 0);
   const editar = api.asignaturas.modificarAsignatura.useMutation();
 
-  async function editarAsignatura() {
-    await editar.mutateAsync({
-      asignaturaId: IasignaturaId,
+  function editSubject() {
+    void editar.mutateAsync({
       id: sessionData?.user?.id,
-      nombre: nombre,
+      subjectId: IasignaturaId,
+      name: nombre,
       tiempoTrabajo: tiempoTrabajo,
       tiempoDescanso: tiempoDescanso,
-      tiempoObjetivo: timepoObjetivo,
+      timeObjective: timepoObjetivo,
     });
     window.location.reload();
   }
+
+
   return (
     <>
         <button
             type="button"
             className="inline-flex items-center px-4 py-2"
-            onClick={() => {setOpen(true)}}
+            onClick={() => setOpen(true)}
         >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 hover:text-black">
               <path strokeLinecap="round" strokeLinejoin="round" d="M10.343 3.94c.09-.542.56-.94 1.11-.94h1.093c.55 0 1.02.398 1.11.94l.149.894c.07.424.384.764.78.93.398.164.855.142 1.205-.108l.737-.527a1.125 1.125 0 011.45.12l.773.774c.39.389.44 1.002.12 1.45l-.527.737c-.25.35-.272.806-.107 1.204.165.397.505.71.93.78l.893.15c.543.09.94.56.94 1.109v1.094c0 .55-.397 1.02-.94 1.11l-.893.149c-.425.07-.765.383-.93.78-.165.398-.143.854.107 1.204l.527.738c.32.447.269 1.06-.12 1.45l-.774.773a1.125 1.125 0 01-1.449.12l-.738-.527c-.35-.25-.806-.272-1.203-.107-.397.165-.71.505-.781.929l-.149.894c-.09.542-.56.94-1.11.94h-1.094c-.55 0-1.019-.398-1.11-.94l-.148-.894c-.071-.424-.384-.764-.781-.93-.398-.164-.854-.142-1.204.108l-.738.527c-.447.32-1.06.269-1.45-.12l-.773-.774a1.125 1.125 0 01-.12-1.45l.527-.737c.25-.35.273-.806.108-1.204-.165-.397-.505-.71-.93-.78l-.894-.15c-.542-.09-.94-.56-.94-1.109v-1.094c0-.55.398-1.02.94-1.11l.894-.149c.424-.07.765-.383.93-.78.165-.398.143-.854-.107-1.204l-.527-.738a1.125 1.125 0 01.12-1.45l.773-.773a1.125 1.125 0 011.45-.12l.737.527c.35.25.807.272 1.204.107.397-.165.71-.505.78-.929l.15-.894z" />
@@ -85,9 +87,7 @@ const EditarAsignatura: React.FC<Asignatura> = ({Inombre, ItiempoTrabajo, Itiemp
                         Editar asignatura
                       </Dialog.Title>
                       <div className="mt-2">
-                      <form onSubmit={
-                            () => void 
-                            editarAsignatura()}>
+                      <form onSubmit={editSubject}>
                             <div className="flex flex-col items-center justify-center py-2 px-14 text-center text-black">
                                 <p className="p-1 text-xl">Nombre</p>
                                 <div className="pt-3">
@@ -133,7 +133,7 @@ const EditarAsignatura: React.FC<Asignatura> = ({Inombre, ItiempoTrabajo, Itiemp
                                         </button>
                                         </div>
                                         <div className="p-3">
-                                            <DeleteButton asignaturaId={IasignaturaId}/>
+                                            <DeleteButton subjectId={IasignaturaId}/>
                                         </div>
                                     </div>
                             </div>

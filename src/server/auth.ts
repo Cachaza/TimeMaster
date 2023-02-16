@@ -68,7 +68,7 @@ declare module "next-auth" {
     buttonText: "1F2937" // Hex color code
   },
   pages: {
-    signIn: '/login',
+    signIn: '/user',
     newUser: '/user'
   },
 

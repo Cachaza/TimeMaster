@@ -29,5 +29,6 @@ const config = {
     ],
     domains:["cdn.discordapp.com"]
   },
+  output: "standalone",
 };
 export default config;

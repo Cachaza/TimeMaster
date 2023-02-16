@@ -1,15 +1,16 @@
 import Router, {useRouter} from "next/router";
 import { api } from "../../utils/api";
 import Pomodoro from "../../components/pomodoro";
-import Cronometro from "../../components/cronometro";
+import Chronometer from "../../components/chronometer";
 
 import { GetSessionParams, getSession , useSession} from "next-auth/react"
 import { useState } from "react"
 import "tailwindcss/tailwind.css"
 import Navbar from "../../components/navbar";
 
-import EditarAsignatura from "../../components/modalEditarAsignatura";
+import EditarAsignatura from "../../components/editSubjectModal";
 import Head from "next/head";
+import { GetServerSidePropsContext } from "next";
 
 
 
@@ -17,7 +18,7 @@ const Asignatura = () => {
     const id = useRouter().query.id;
 
     const { data: sessionData } = useSession();
-    const {data: asignatura} = api.asignaturas.getAsignatura.useQuery({id: sessionData?.user?.id, asignaturaId: String(id)});
+    const {data: asignatura} = api.asignaturas.getAsignatura.useQuery({id: sessionData?.user?.id, subjectId: String(id)});
     const [openTab, setOpenTab] = useState(2);
     
     
@@ -25,8 +26,8 @@ const Asignatura = () => {
         return <div>Cargando...</div>
     }
 
-    const ind = asignatura.asignaturas[0];
-    const nombre = asignatura.asignaturas[0]?.nombre;
+    const ind = asignatura.subjects[0];
+    const nombre = asignatura.subjects[0]?.name;
     
     
 
@@ -82,12 +83,12 @@ const Asignatura = () => {
                         <div className="px-4 py-5 flex-auto">
                             <div className="tab-content tab-space">
                             <div className={openTab === 1 ? "block" : "hidden"}>
-                                <Cronometro asignaturaId={String(id)} />
+                                <Chronometer subjectId={String(id)} />
                             </div>
                             <div className={openTab === 2 ? "block" : "hidden"}>
-                                <Pomodoro workTime={ind?.tiempoTrabajo ?? 25} breakTime={ind?.tiempoDescanso ?? 5} asignaturaId={String(id)} />
+                                <Pomodoro workTime={ind?.workingTime ?? 25} breakTime={ind?.restTime ?? 5} asignaturaId={String(id)} />
                                 <div className="container mx-auto flex flex-col items-center justify-center p-4">
-                                    <EditarAsignatura Inombre={ind?.nombre ?? "No definido"} ItiempoTrabajo={ind?.tiempoTrabajo ?? 25} ItiempoDescanso={ind?.tiempoDescanso ?? 5} ItiempoObjetivo={ind?.timepoObjetivo ?? 0} IasignaturaId={String(id)} />
+                                    <EditarAsignatura Inombre={ind?.name ?? "No definido"} ItiempoTrabajo={ind?.workingTime ?? 25} ItiempoDescanso={ind?.restTime ?? 5} ItiempoObjetivo={ind?.timeObjetive ?? 0} IasignaturaId={String(id)} />
                                 </div>
                             </div>
                             </div>
@@ -117,7 +118,7 @@ const Asignatura = () => {
 export default Asignatura;
 
 
-export async function getServerSideProps(context: GetSessionParams | undefined) {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
     const session = await getSession(context);
     
     if (!session) {

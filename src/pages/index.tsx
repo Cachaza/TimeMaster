@@ -29,9 +29,12 @@ const Home: NextPage = () => {
           <div className="text-xl  text-white pb-5">
             Por favor inicia session
           </div>
-          <div className="flex flex-col items-center p-5 bg-blue rounded-xl">
-            <Link href="/login">Inicia session</Link>
-          </div>
+          <Link
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            href={"/login"}
+          >
+            Iniciar sesion
+          </Link>
         </main>
       </>
     );

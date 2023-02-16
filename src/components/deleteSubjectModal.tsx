@@ -6,25 +6,25 @@ import { useSession } from 'next-auth/react'
 import Router  from 'next/router'
 
 interface Props {
-    asignaturaId: string;   
+    subjectId: string;
 }
 
 
 
-export default function DeleteButton({asignaturaId}: Props) {
+export default function DeleteButton({subjectId}: Props) {
   const [open, setOpen] = useState(false)
 
   const cancelButtonRef = useRef(null)
 
-  const eliminarAsignatura = api.asignaturas.eliminarAsignatura.useMutation();
+  const deleteSubject = api.asignaturas.eliminarAsignatura.useMutation();
   const { data: sessionData } = useSession();
 
-  async function eliminarAsignaturaBase() {
-    await eliminarAsignatura.mutateAsync({
-      asignaturaId: asignaturaId,
+  function deleteSubjectButton() {
+    void deleteSubject.mutateAsync({
+      subjectId: subjectId,
       id: sessionData?.user?.id,
     });
-    await Router.push('/user');
+    void Router.push('/user');
   }
 
 
@@ -85,7 +85,7 @@ export default function DeleteButton({asignaturaId}: Props) {
                   <button
                     type="button"
                     className="inline-flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
-                    onClick={() => void eliminarAsignaturaBase()}>
+                    onClick={deleteSubjectButton}>
                     Eliminar
                   </button>
                   <button
