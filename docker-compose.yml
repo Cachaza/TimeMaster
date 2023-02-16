@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  app:
+    platform: "linux/amd64"
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_CLIENTVAR: "clientvar"
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    image: t3-app
+    environment:
+      - DATABASE_URL=mysql://root:residencia43@mariadb:3306/time
+      - DISCORD_CLIENT_ID=1040026446489473134
+      - DISCORD_CLIENT_SECRET=VCyCNgzuSve5Av8pzylA6lyEcH7HPGt_
+      - GOOGLE_CLIENT_ID=296373572173-dkja0hkk4u75mdboirm4k3nmnb2nh3v7.apps.googleusercontent.com
+      - GOOGLE_CLIENT_SECRET=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
+      - NEXTAUTH_SECRET=cNW7gS5MPRGml2nUugy08LMnzCeTc1mk/6QSZzbXIwg=
+      - NEXTAUTH_URL=http://localhost:3000
+
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=residencia43
+      - MYSQL_DATABASE=time
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mariadb:/var/lib/mysql
+
+
+  

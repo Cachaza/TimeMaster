@@ -196,6 +196,7 @@ export const ruterAsignaturas = createTRPCRouter({
                     }
                 }
             });
+            return tiempoAñadido
         }
 
       ),
