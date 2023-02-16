@@ -31,7 +31,7 @@ const Home: NextPage = () => {
           </div>
           <Link
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            href={"login"}
+            href={"/login"}
           >
             Iniciar sesion
           </Link>
