@@ -3,7 +3,6 @@ import { Dialog, Transition } from '@headlessui/react'
 import { api } from '../utils/api'
 import { useSession } from 'next-auth/react'
 import DeleteButton from './deleteSubjectModal'
-import ReactSlider from 'react-slider'
 
 
 interface Asignatura {
