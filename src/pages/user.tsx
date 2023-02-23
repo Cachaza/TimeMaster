@@ -10,6 +10,7 @@ import AddButton from "../components/addSubjectModal";
 import { api } from "../utils/api"
 import SubjectCard from "../components/subjectCard";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import Image from "next/image";
 
 
 export default function User(){
@@ -42,7 +43,7 @@ export default function User(){
 
         <div className="pb-20 font-sans h-screen w-full flex flex-row justify-center items-center text-black">
              <div className="card w-3/4 mx-auto bg-gray-200  shadow-xl rounded-xl ">
-                <img className="w-32 mx-auto rounded-full -mt-20 border-8 border-white" src={sessionData?.user?.image ? sessionData?.user?.image : "https://images.squarespace-cdn.com/content/v1/5ccc49ee348cd92c42de2bb7/1614191616274-GDEYW4J7O7QNJ0ICAP17/Kim+Wood+Placeholder+Image.png?format=1000w" } alt=""></img>
+                <Image className="w-32 mx-auto rounded-full -mt-20 border-8 border-white" src={sessionData?.user?.image ? sessionData?.user?.image : "https://images.squarespace-cdn.com/content/v1/5ccc49ee348cd92c42de2bb7/1614191616274-GDEYW4J7O7QNJ0ICAP17/Kim+Wood+Placeholder+Image.png?format=1000w" } alt="" width={150} height={150}></Image>
                 <div className="text-center mt-2 text-3xl font-medium">{sessionData?.user?.name}</div>
                 <div className="pb-6 text-center mt-2 font-light text-m">
                     Asignaturas

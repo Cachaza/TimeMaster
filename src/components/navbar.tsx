@@ -3,6 +3,7 @@ import { useSession } from "next-auth/react";
 
 import Link from "next/link";
 import SingOutModal from "./singOutModal";
+import Image from "next/image";
 
 
  
@@ -19,7 +20,7 @@ import SingOutModal from "./singOutModal";
       <nav className="p-3 bg-gray-800 border-gray-700">
         <div className="container flex flex-wrap justify-between items-center mx-auto">
           <Link href="/" className="flex items-center">
-            <img src="https://cdn-icons-png.flaticon.com/512/6266/6266465.png" className="mr-3 h-6 sm:h-10" alt="Logo" />
+            <Image src="https://cdn-icons-png.flaticon.com/512/6266/6266465.png" className="mr-3 h-6 sm:h-10" alt="Logo" width={40} height={40}/>
             <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">TimeMaster</span>
           </Link>
           <button data-collapse-toggle="navbar-solid-bg" type="button" className="inline-flex justify-center items-center ml-3 text-gray-400 rounded-lg md:hidden hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-300 dark:text-gray-400 dark:hover:text-white dark:focus:ring-gray-500" aria-controls="navbar-solid-bg" aria-expanded="false">

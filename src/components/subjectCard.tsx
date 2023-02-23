@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 
 
@@ -33,7 +34,7 @@ const SubjectCard: React.FC<Asignatura> = ({ nombre, asignaturaId, tiempoObjetiv
             href={"/a/" + asignaturaId}
             key={asignaturaId}
         >
-            <img className="object-cover w-1/2 h-full rounded-t-lg md:h-auto md:w-2/5 md:rounded-none md:rounded-l-lg" src="https://cdn.discordapp.com/attachments/1061231463405719556/1067003573499609088/cachvza_a_person_alone_walking_on_a_deserted_and_mountainous_pa_3aab462e-773a-414b-8565-547f33842059.png" alt=""></img>
+            <Image className="object-cover w-1/2 h-full rounded-t-lg md:h-auto md:w-2/5 md:rounded-none md:rounded-l-lg" src="https://cdn.discordapp.com/attachments/1061231463405719556/1067003573499609088/cachvza_a_person_alone_walking_on_a_deserted_and_mountainous_pa_3aab462e-773a-414b-8565-547f33842059.png" alt="" width={100} height={100}></Image>
             <div className="flex flex-col justify-between p-4 leading-normal">
                 <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{nombre}</h5>
                 <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{tiempoFinal}</p>
