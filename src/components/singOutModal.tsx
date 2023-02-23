@@ -67,7 +67,7 @@ export default function SingOutModal() {
                         </Dialog.Title>
                         <div className="mt-2">
                           <p className="text-sm text-gray-500">
-                            Estas seguro de que quieres cerrar sesión?.
+                            Estas seguro de que quieres cerrar sesión?
                           </p>
                         </div>
                       </div>
