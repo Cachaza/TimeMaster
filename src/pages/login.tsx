@@ -53,7 +53,7 @@ export default function Login({ getProviders, getSession, getCsrfToken }: any) {
             onClick={() => void signIn("google")}
             className=" p-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600 "
             >
-            Sign in with Google<Image src="https://cdn-icons-png.flaticon.com/512/281/281764.png" className="inline w-6 h-6 ml-2" alt=""/>
+            Sign in with Google<Image src="https://cdn-icons-png.flaticon.com/512/281/281764.png" className="inline w-6 h-6 ml-2" alt="" width={10} height={10}/>
             </button>
           </div>
         </div>
