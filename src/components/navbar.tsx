@@ -1,7 +1,9 @@
 
-import { signIn, signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
+
 import Link from "next/link";
+import SingOutModal from "./singOutModal";
+import Image from "next/image";
 
 
  
@@ -10,7 +12,7 @@ import Link from "next/link";
 
 
   const { data: sessionData } = useSession();
-  const router = useRouter();
+
  
 
 
@@ -18,7 +20,7 @@ import Link from "next/link";
       <nav className="p-3 bg-gray-800 border-gray-700">
         <div className="container flex flex-wrap justify-between items-center mx-auto">
           <Link href="/" className="flex items-center">
-            <img src="https://cdn-icons-png.flaticon.com/512/6266/6266465.png" className="mr-3 h-6 sm:h-10" alt="Logo" />
+            <Image src="https://cdn-icons-png.flaticon.com/512/6266/6266465.png" className="mr-3 h-6 sm:h-10" alt="Logo" width={40} height={40}/>
             <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">TimeMaster</span>
           </Link>
           <button data-collapse-toggle="navbar-solid-bg" type="button" className="inline-flex justify-center items-center ml-3 text-gray-400 rounded-lg md:hidden hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-300 dark:text-gray-400 dark:hover:text-white dark:focus:ring-gray-500" aria-controls="navbar-solid-bg" aria-expanded="false">
@@ -30,6 +32,9 @@ import Link from "next/link";
               <li>
                 <Link href={sessionData ? "/user" : "/"}  className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent" aria-current="page">
                   {sessionData ? "Panel" : "Home"}</Link>
+              </li>
+              <li>
+                { sessionData ? <SingOutModal /> : <Link href="/login" className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Login</Link> }
               </li>
             </ul>
           </div>

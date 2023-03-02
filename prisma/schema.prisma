@@ -32,7 +32,6 @@ model Account {
   id_token          String? @db.Text
   session_state     String?
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-
   @@unique([provider, providerAccountId])
   @@index([userId])
 }
@@ -43,7 +42,6 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
   @@index([userId])
 }
 
@@ -67,11 +65,8 @@ model Subjects {
   restTime     Int    @default(5)
   totalTime    Int    @default(0)
   timeObjetive Int    @default(0)
-
   individualtimes IndividualTimes[]
-
   user User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-
   @@index([ownerId])
 }
 
@@ -81,9 +76,7 @@ model IndividualTimes {
   date       DateTime @default(now())
   workedTime Int
   totalTime  Int
-
   asignatura Subjects @relation(fields: [subjectId], references: [subjectId], onDelete: Cascade)
-
   @@index([subjectId])
 }
 
@@ -91,6 +84,5 @@ model VerificationToken {
   identifier String
   token      String   @unique
   expires    DateTime
-
   @@unique([identifier, token])
 }

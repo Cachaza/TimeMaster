@@ -63,6 +63,7 @@ const Chronometer: React.FC<PomodoroProps> = ({ subjectId }) => {
   useEffect(() => {
     if (!isPaused) {
       const intervalId = setInterval(() => {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         setTimeElapsed(Date.now() - startTime! + timeElapsed);
       }, 10);
       return () => clearInterval(intervalId);
