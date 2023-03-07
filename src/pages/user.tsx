@@ -49,7 +49,7 @@ export default function User(){
                     Asignaturas
                 </div>
 
-                <div className="grid grid-cols-12 gap-4 mx-8 auto-cols-auto">
+                <div className="grid grid-cols-8 gap-4 mx-8 auto-cols-auto">
                     {asignaturas.isLoading && <div className="text-center text-xl font-medium align-middle">Cargando...</div>}
                     {asignaturas.data?.map((asignatura) => (
                         
