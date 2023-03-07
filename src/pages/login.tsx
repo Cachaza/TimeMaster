@@ -1,18 +1,16 @@
 import Navbar from "../components/navbar"
-import { useState } from "react"
 import "tailwindcss/tailwind.css"
 import Head from "next/head";
 
-import { getProviders, signIn, getCsrfToken, getSession , useSession} from "next-auth/react"
+import {  signIn,  getSession , useSession} from "next-auth/react"
 import { GetServerSidePropsContext } from "next";
 import Image from "next/image";
 
 
 
 
-export default  function Login({ getProviders, getSession, getCsrfToken }: any) {
+export default function Login() {
   const { data: sessionData } = useSession();
-  const [error, setError] = useState()
 
 
   async function loginGoogle() {
