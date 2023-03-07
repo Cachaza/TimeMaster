@@ -51,12 +51,11 @@ export default function AddButton() {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all">
                 <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                   <div className="sm:flex sm:items-start">
                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                       <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
-                        Añadir asignatura
                       </Dialog.Title>
                       <div className="mt-2">
                         {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
@@ -70,24 +69,28 @@ export default function AddButton() {
 
                                         
                         }}>
-                            <div className="flex flex-col items-center justify-center py-2 px-14 text-center">
-                                <h1 className="text-4xl font-bold">Crear Asignatura</h1>
+                            <div className="flex flex-col items-center justify-center text-center text-black">
+                                <h1 className="text-4xl ">Crear Asignatura</h1>
                                 <p className="mt-3 text-2xl">Por favor ingrese el nombre de la asignatura</p>
-                                <div className="pt-6">
-                                    <input
+                                <div className="pt-6 flex flex-col">
+                                    <div className="flex flex-col items-center justify-center">
+                                      <input
                                         required
                                         type="text"
                                         placeholder="Nombre"
                                         value={nombre}
                                         onChange={(e) => setNombre(e.target.value)}
                                         className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500, text-black"
-                                    />
-                                    <button
-                                        type="submit"
-                                        className="p-2 mt-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
-                                    >
-                                        Crear
-                                    </button>
+                                      />
+                                    </div>
+                                    <div className="flex flex-col items-center justify-center pt-2">
+                                      <button
+                                          type="submit"
+                                          className="p-2 mt-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
+                                      >
+                                          Crear
+                                      </button>
+                                    </div>
                                 </div>
                             </div>
 
