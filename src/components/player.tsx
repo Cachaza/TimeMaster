@@ -49,7 +49,7 @@ const Player = () => {
     <div className="flex">
       <audio ref={audioRef} src={song} />
       <button
-        className="pr-4 pt-0.5"
+        className="pr-4 pt-0.5 hover:text-gray-500"
         onClick={handlePlayPause}
       >
         {isPlaying ? (
