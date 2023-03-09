@@ -123,7 +123,7 @@ export const ruterAsignaturas = createTRPCRouter({
       ),
 
     modificarAsignatura: publicProcedure
-      .input(z.object({ id: z.string().nullish(), subjectId: z.string(), name: z.string().nullish(), tiempoTrabajo: z.number(), tiempoDescanso: z.number(), timeObjective: z.number()}).nullish())
+      .input(z.object({ id: z.string().nullish(), subjectId: z.string(), name: z.string().nullish(), tiempoTrabajo: z.number(), tiempoDescanso: z.number(), timeObjective: z.number(), videoUrl: z.string().nullish()}).nullish())
       .mutation(({ input }) => {
             const prisma = new PrismaClient();
             return prisma.user.update({
@@ -140,7 +140,8 @@ export const ruterAsignaturas = createTRPCRouter({
                                 name: input?.name ?? "",
                                 workingTime: input?.tiempoTrabajo ?? 0,
                                 restTime: input?.tiempoDescanso ?? 0,
-                                timeObjetive: input?.timeObjective ?? 0
+                                timeObjetive: input?.timeObjective ?? 0,
+                                song: input?.videoUrl ?? ""
                             }
                         }
                     }
