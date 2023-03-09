@@ -269,5 +269,29 @@ export const ruterAsignaturas = createTRPCRouter({
       }
     ),
 
+  getSubjectSong: publicProcedure
+    .input(z.object({ subjectId: z.string()}).nullish())
+    .query(async ({ input }) => {
+      const prisma = new PrismaClient();
+      const song = await  prisma.subjects.findUnique({
+        where: {
+          subjectId: input?.subjectId ?? ""
+        },
+        select: {
+          song: true
+        }
+      })
+
+      return {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        song: song?.song ?? "",
+      }
+
+
+
+
+    }
+  ),
+
 
 })
