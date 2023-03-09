@@ -133,7 +133,7 @@ const Asignatura =  () => {
                             <div className={openTab === 2 ? "block" : "hidden"}>
                                 <Pomodoro workTime={ind?.workingTime ?? 25} breakTime={ind?.restTime ?? 5} asignaturaId={String(id)} />
                                 <div className="container mx-auto flex flex-col items-center justify-center p-4">
-                                    <EditarAsignatura Inombre={ind?.name ?? "No definido"} ItiempoTrabajo={ind?.workingTime ?? 25} ItiempoDescanso={ind?.restTime ?? 5} ItiempoObjetivo={ind?.timeObjetive ?? 0} IasignaturaId={String(id)} />
+                                    <EditarAsignatura Inombre={ind?.name ?? "No definido"} ItiempoTrabajo={ind?.workingTime ?? 25} ItiempoDescanso={ind?.restTime ?? 5} ItiempoObjetivo={ind?.timeObjetive ?? 0} IasignaturaId={String(id)} videoUrl={youtube?.song ?? "https://www.youtube.com/watch?v=QH2-TGUlwu4"} />
                                 </div>
                             </div>
                             </div>
