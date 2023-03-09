@@ -1,9 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
 
+interface PlayerProps {
+  youtube: string;
+}
 
-const youtube = "https://www.youtube.com/watch?v=l98w9OSKVNA";
-
-const Player = () => {
+const Player: React.FC<PlayerProps> = ({ youtube }) => {
   const [song, setSong] = useState("");
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
