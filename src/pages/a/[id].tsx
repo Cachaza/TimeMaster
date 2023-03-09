@@ -15,11 +15,12 @@ import Link from "next/link";
 import Player from "../../components/player";
 
 
-const Asignatura = () => {
+const Asignatura =  () => {
     const id = useRouter().query.id;
     const { data: sessionData } = useSession();
     const [openTab, setOpenTab] = useState(2);
     const {data: asignatura} = api.asignaturas.getAsignatura.useQuery({id: sessionData?.user?.id, subjectId: String(id)});
+    const {data: youtube }  =  api.asignaturas.getSubjectSong.useQuery({subjectId: String(id)});
 
     const exists  = api.asignaturas.checkIfSubjectExists.useQuery({id: sessionData?.user?.id, subjectId: String(id)});
 
@@ -157,7 +158,8 @@ const Asignatura = () => {
                 </button>
             </div>
             <div className="absolute bottom-10 left-10">
-                <Player />
+                {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */}
+                <Player youtube={youtube?.song ?? "https://www.youtube.com/watch?v=QH2-TGUlwu4"}/>
             </div>
 
 
