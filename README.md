@@ -1,28 +1,45 @@
-# Create T3 App
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+# TimeMaster - A WebApp for Students
 
-## What's next? How do I make an app with this?
+TimeMaster is a web application that helps students track the time they spend studying different subjects. It allows users to login with their Google or Discord accounts and create a list of subjects they are currently studying. The dashboard displays all the subjects a user has added, and upon clicking a subject, it takes the user to a unique page where they can track their study time using either a pomodoro timer or a chronometer. The app saves the time studied for each subject in a database, allowing users to monitor their progress and incentivize them to study more.
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## Demo
+- https://time-master-cachaza.vercel.app/
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+Or the docker version:
+- https://timemaster.cachaza.cc
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
 
-## Learn More
+## Technologies Used
+The project is built on top of the [T3-Stack](https://create.t3.gg/)
+- [Next.js](https://nextjs.org/)
+- [NextAuth.js](https://next-auth.js.org/)
+- [Prisma](https://www.prisma.io/)
+- [TRPC](https://trpc.io/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [MariaDB](https://mariadb.org/)
+- [Docker](https://www.docker.com/)
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+## Getting Started
+To use TimeMaster, you need to have Node.js and Docker installed on your system. Follow these steps to get started:
+1. Clone the repository and navigate to the project directory.
+2. Run `docker-compose up` to start the MariaDB database and the web app.
+3. Open your browser and go to `http://localhost:3000`.
+4. Login with your Google or Discord account to access the dashboard.
+5. Add the subjects you are studying.
+6. Click on a subject to start tracking your study time.
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+## Contributing
+We welcome contributions from the community! If you want to contribute to TimeMaster, please open an issue or submit a pull request. Before contributing, please read our [code of conduct](./CODE_OF_CONDUCT.md).
 
-## How do I deploy this?
+## License
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+[MIT](https://choosealicense.com/licenses/mit/)
+
+
+## Authors
+
+- [@Cachaza](https://www.github.com/cachaza)
+

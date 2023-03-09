@@ -65,13 +65,11 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime , breakTime, asignaturaId 
       id: sessionData?.user?.id,
       totalTime: antiguoTiempo + trabajado,
     });
-       
-
   }
 
    function finalizarTiempo() {
     if(!isBreak){
-      let tiempo
+      let tiempo: number
       
       const tiempoEstudiado = (workTime / (60* 1000)) - minutes;
       if(tiempoEstudiado <= 0){
@@ -101,7 +99,7 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime , breakTime, asignaturaId 
   useEffect(() => {
     if (isRunning) {
       const intervalId = setInterval(() => {
-        setTimeRemaining(prevTimeRemaining => {
+        setTimeRemaining(() => {
           const timeElapsed = Date.now() - startTime! + elapsedTime;
           const targetTime = isBreak ? breakTime : workTime;
           const newTimeRemaining = targetTime - timeElapsed;
@@ -125,6 +123,7 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime , breakTime, asignaturaId 
       return () => clearInterval(intervalId);
     }
   }, [isRunning, startTime, elapsedTime, isBreak]);
+  
 
 
   const handleStart = () => {
@@ -172,7 +171,7 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime , breakTime, asignaturaId 
         <button onClick={isRunning ? handleStop : handleStart} className='btn btn-primary pr-2 font-bold text-center'>
           {isRunning ? 'Stop' : 'Start'}
         </button>
-        <button onClick={finalizarTiempo} className='btn btn-primary pl-2 font-bold text-center'>Finalizar</button>
+        <button onClick={() => void finalizarTiempo()} className='btn btn-primary pl-2 font-bold text-center'>Finalizar</button>
       </div>
     </div>
   );

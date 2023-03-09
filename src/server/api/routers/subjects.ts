@@ -243,4 +243,31 @@ export const ruterAsignaturas = createTRPCRouter({
 
       ),
 
+    checkIfSubjectExists: publicProcedure
+      .input(z.object({ id: z.string().nullish(), subjectId: z.string()}).nullish())
+      .query(async ({ input }) => {
+        const prisma = new PrismaClient();
+        const subject = await prisma.user.findUnique({
+          where: {
+            id: input?.id ?? ""
+          },
+          select:{
+            subjects: {
+              where: {
+                subjectId: input?.subjectId ?? ""
+
+              }
+            }
+          }
+        })
+
+        if (subject?.subjects[0] === undefined) {
+          return false
+        } else {
+          return true
+        }
+      }
+    ),
+
+
 })

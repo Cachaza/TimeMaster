@@ -26,7 +26,7 @@ const Home: NextPage = () => {
             <p>{hello.data ? hello.data.name : "Loading..."}</p>
           </div>
           */}
-          <div className="text-xl text-white pb-5">
+          <div className="text-xl  text-white pb-5">
             Por favor inicia session
           </div>
           <Link
