@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider     = "mysql"
+  provider     = "sqlite"
   url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
@@ -18,12 +18,12 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String? //@db.Text
+  access_token      String? //@db.Text
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String? //@db.Text
   session_state     String?
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -61,6 +61,7 @@ model Subjects {
   restTime        Int               @default(5)
   totalTime       Int               @default(0)
   timeObjetive    Int               @default(0)
+  song            String            @default("https://www.youtube.com/watch?v=l98w9OSKVNA")
   individualtimes IndividualTimes[]
   user            User              @relation(fields: [ownerId], references: [id], onDelete: Cascade)
 
