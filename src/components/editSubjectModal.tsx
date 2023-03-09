@@ -11,10 +11,11 @@ interface Asignatura {
     ItiempoDescanso: number;
     ItiempoObjetivo: number;
     IasignaturaId: string;
+    videoUrl: string;
 }
 
 
-const EditarAsignatura: React.FC<Asignatura> = ({Inombre, ItiempoTrabajo, ItiempoDescanso, ItiempoObjetivo, IasignaturaId}) => {
+const EditarAsignatura: React.FC<Asignatura> = ({Inombre, ItiempoTrabajo, ItiempoDescanso, ItiempoObjetivo, IasignaturaId, videoUrl}) => {
   const [open, setOpen] = useState(false)
   const cancelButtonRef = useRef(null)
 
@@ -24,6 +25,7 @@ const EditarAsignatura: React.FC<Asignatura> = ({Inombre, ItiempoTrabajo, Itiemp
   const [tiempoTrabajo, setTiempoTrabajo] = useState(ItiempoTrabajo ?? 25);
   const [tiempoDescanso, setTiempoDescanso] = useState(ItiempoDescanso ?? 5);
   const [timepoObjetivo, setTimepoObjetivo] = useState(ItiempoObjetivo ?? 0);
+  const [videoUrlForm, setVideoUrlForm] = useState(videoUrl ?? "");
   const editar = api.asignaturas.modificarAsignatura.useMutation();
 
   function editSubject() {
@@ -34,6 +36,7 @@ const EditarAsignatura: React.FC<Asignatura> = ({Inombre, ItiempoTrabajo, Itiemp
       tiempoTrabajo: tiempoTrabajo,
       tiempoDescanso: tiempoDescanso,
       timeObjective: timepoObjetivo,
+      videoUrl: videoUrlForm,
     });
     window.location.reload();
   }
@@ -120,6 +123,14 @@ const EditarAsignatura: React.FC<Asignatura> = ({Inombre, ItiempoTrabajo, Itiemp
                                         value={timepoObjetivo}
                                         onChange={(e) => setTimepoObjetivo(parseInt(e.target.value))}
                                         className="p-1 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500, text-black"
+                                    />
+                                    <p className="p-1 text-xl">Url del video</p>
+                                    <input
+                                      type="text"
+                                      placeholder="url del video"
+                                      value={videoUrlForm}
+                                      onChange={(e) => setVideoUrlForm(e.target.value)}
+                                      className="p-1 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500, text-black"
                                     />
                                     </div>
                                     <div className="px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
