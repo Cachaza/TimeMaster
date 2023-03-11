@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 
 
 
@@ -30,13 +29,18 @@ const SubjectCard: React.FC<Asignatura> = ({ nombre, asignaturaId, tiempoObjetiv
     
 
     return (
-        <Link className="flex flex-col items-center md:flex-row md:max-w-xl border-gray-700 bg-gray-800 hover:bg-gray-700 col-span-2 border rounded-lg"
+        <Link className="flex flex-col overflow-hidden static items-center md:flex-row md:max-w-xl border-gray-700 bg-gray-800 hover:bg-gray-700 col-span-2 border rounded-lg"
             href={"/a/" + asignaturaId}
             key={asignaturaId}
         >
-            <div className="flex flex-col justify-between p-4 leading-normal">
-                <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{nombre}</h5>
-                <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{tiempoFinal}</p>
+            <div className="flex flex-col w-full">
+                <div className="flex flex-col justify-between p-4 leading-normal">
+                    <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{nombre}</h5>
+                    <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{tiempoFinal}</p>
+                </div>
+                <div className="h-1 w-full bg-neutral-600">
+                    <div className="h-1 bg-blue-800" style={{ width: String((tiempoTotal*100)/(tiempoObjetivo*60)) + "%" }}></div>
+                </div>
             </div>
         </Link>
     )
