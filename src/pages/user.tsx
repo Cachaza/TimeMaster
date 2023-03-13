@@ -30,7 +30,7 @@ export default function User(){
     }
     const descripcion = api.example.descripcion.useQuery({ id: sessionData?.user?.id });
     const asignaturas = api.asignaturas.getAsignaturas2.useQuery({ id: sessionData?.user?.id });
-
+    asignaturas.data?.sort((a, b) => a.name.localeCompare(b.name));
 
 
     return (
