@@ -60,7 +60,7 @@ model Subjects {
   workingTime     Int               @default(25)
   restTime        Int               @default(5)
   totalTime       Int               @default(0)
-  timeObjetive    Int               @default(0)
+  timeObjetive    Int               @default(100)
   song            String            @default("https://www.youtube.com/watch?v=l98w9OSKVNA")
   individualtimes IndividualTimes[]
   user            User              @relation(fields: [ownerId], references: [id], onDelete: Cascade)
