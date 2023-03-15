@@ -17,8 +17,7 @@ export const ruterAsignaturas = createTRPCRouter({
     createAsignatura2: publicProcedure
       .input(z.object({ name: z.string().nullish()}).nullish())
       .mutation(({ ctx, input }) => {
-            const prisma = new PrismaClient();
-            return prisma.user.update({
+            return ctx.prisma.user.update({
                 where: {
                     id: ctx?.session?.user.id
                 },
@@ -36,8 +35,7 @@ export const ruterAsignaturas = createTRPCRouter({
 
     getAsignaturas2: publicProcedure
       .query(async ({ ctx }) => {
-            const prisma = new PrismaClient();
-            return prisma.subjects.findMany({
+            return ctx.prisma.subjects.findMany({
                 where: {
                     ownerId: ctx?.session?.user.id
                 },
@@ -55,8 +53,7 @@ export const ruterAsignaturas = createTRPCRouter({
     getAsignatura: publicProcedure
       .input(z.object({ subjectId: z.string()}).nullish())
       .query(async ({ ctx, input }) => {
-            const prisma = new PrismaClient();
-            return prisma.user.findUnique({
+            return ctx.prisma.user.findUnique({
                 where: {
                     id: ctx?.session?.user.id
                 },
@@ -83,8 +80,7 @@ export const ruterAsignaturas = createTRPCRouter({
     modificarAsignatura: publicProcedure
       .input(z.object({ subjectId: z.string(), name: z.string().nullish(), tiempoTrabajo: z.number(), tiempoDescanso: z.number(), timeObjective: z.number(), videoUrl: z.string().nullish()}).nullish())
       .mutation(({ ctx, input }) => {
-            const prisma = new PrismaClient();
-            return prisma.user.update({
+            return ctx.prisma.user.update({
                 where: {
                     id: ctx?.session?.user.id
                 },
@@ -112,8 +108,7 @@ export const ruterAsignaturas = createTRPCRouter({
     eliminarAsignatura: publicProcedure
       .input(z.object({ subjectId: z.string()}).nullish())
       .mutation(({ ctx, input }) => {
-            const prisma = new PrismaClient();
-            return prisma.user.update({
+            return ctx.prisma.user.update({
                 where: {
                     id: ctx?.session?.user.id
                 },
@@ -132,8 +127,7 @@ export const ruterAsignaturas = createTRPCRouter({
     añadirTiempo: publicProcedure
       .input(z.object({ subjectId: z.string(), tiempo: z.number(), totalTime: z.number()}).nullish())
       .mutation(({ ctx, input }) => {
-            const prisma = new PrismaClient();
-            const tiempoAñadido = prisma.user.update({
+            const tiempoAñadido = ctx.prisma.user.update({
                 where: {
                     id: ctx?.session?.user.id
                 },
@@ -162,9 +156,8 @@ export const ruterAsignaturas = createTRPCRouter({
 
     getTiempos: publicProcedure
       .input(z.object({ subjectId: z.string()}).nullish())
-      .query(async ({ input }) => {
-            const prisma = new PrismaClient();
-            const suma =  prisma.individualTimes.findMany({
+      .query(async ({ ctx, input }) => {
+            const suma =  ctx.prisma.individualTimes.findMany({
                 where: {
                     subjectId: input?.subjectId ?? ""
 
@@ -180,8 +173,7 @@ export const ruterAsignaturas = createTRPCRouter({
     actualizarTiempoTotal: publicProcedure
       .input(z.object({ subjectId: z.string(), totalTime: z.number()}).nullish())
       .mutation(({ ctx, input }) => {
-            const prisma = new PrismaClient();
-            return prisma.user.update({
+            return ctx.prisma.user.update({
                 where: {
                     id: ctx?.session?.user.id
                 },
@@ -204,11 +196,10 @@ export const ruterAsignaturas = createTRPCRouter({
 
     checkIfSubjectExists: publicProcedure
       .input(z.object({ id: z.string().nullish(), subjectId: z.string()}).nullish())
-      .query(async ({ input }) => {
-        const prisma = new PrismaClient();
-        const subject = await prisma.user.findUnique({
+      .query(async ({ ctx, input }) => {
+        const subject = await ctx.prisma.user.findUnique({
           where: {
-            id: input?.id ?? ""
+            id: ctx?.session?.user.id ?? ""
           },
           select:{
             subjects: {
@@ -230,9 +221,8 @@ export const ruterAsignaturas = createTRPCRouter({
 
   getSubjectSong: publicProcedure
     .input(z.object({ subjectId: z.string()}).nullish())
-    .query(async ({ input }) => {
-      const prisma = new PrismaClient();
-      const song = await  prisma.subjects.findUnique({
+    .query(async ({ ctx, input }) => {
+      const song = await  ctx.prisma.subjects.findUnique({
         where: {
           subjectId: input?.subjectId ?? ""
         },
