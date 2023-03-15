@@ -1,6 +1,5 @@
 import 'react-circular-progressbar/dist/styles.css';
 import React, { useState, useEffect } from "react";
-import { useSession } from 'next-auth/react'
 
 import { api } from "../utils/api";
 import Router from 'next/router';
@@ -16,8 +15,7 @@ const Chronometer: React.FC<PomodoroProps> = ({ subjectId }) => {
 
 
   const time = api.asignaturas.añadirTiempo.useMutation();
-  const { data: sessionData } = useSession();
-  const getTiempos = api.asignaturas.getTiempos.useQuery({ id: sessionData?.user.id, subjectId: subjectId });
+  const getTiempos = api.asignaturas.getTiempos.useQuery({ subjectId: subjectId });
   const actualizarTiempoTotalBase = api.asignaturas.actualizarTiempoTotal.useMutation();
   const [timeElapsed, setTimeElapsed] = useState<number>(0);
   const [startTime, setStartTime] = useState<number | null>(null);
@@ -27,7 +25,6 @@ const Chronometer: React.FC<PomodoroProps> = ({ subjectId }) => {
   async function addTime(tiempoE: number) {
     await time.mutateAsync({
       subjectId: subjectId,
-      id: sessionData?.user?.id,
       tiempo: tiempoE,
       totalTime: tiempoE,
     });
@@ -53,7 +50,6 @@ const Chronometer: React.FC<PomodoroProps> = ({ subjectId }) => {
 
     await actualizarTiempoTotalBase.mutateAsync({
       subjectId: subjectId,
-      id: sessionData?.user?.id,
       totalTime: antiguoTiempo + trabajado,
     });
        

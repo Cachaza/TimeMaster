@@ -2,7 +2,6 @@ import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { api } from '../utils/api'
-import { useSession } from 'next-auth/react'
 import Router  from 'next/router'
 
 interface Props {
@@ -17,12 +16,10 @@ export default function DeleteButton({subjectId}: Props) {
   const cancelButtonRef = useRef(null)
 
   const deleteSubject = api.asignaturas.eliminarAsignatura.useMutation();
-  const { data: sessionData } = useSession();
 
   function deleteSubjectButton() {
     void deleteSubject.mutateAsync({
       subjectId: subjectId,
-      id: sessionData?.user?.id,
     });
     void Router.push('/user');
   }

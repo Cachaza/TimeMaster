@@ -1,5 +1,4 @@
 import Navbar from "../components/navbar"
-import { useState } from "react"
 import "tailwindcss/tailwind.css"
 
 import Head from "next/head";
@@ -15,7 +14,6 @@ import Image from "next/image";
 
 export default function User(){
     const { data: sessionData, status } = useSession();
-    const [anadirAsignatura, setAnadirAsignatura] = useState(true);
 
     if (status === "loading") {
         return (
@@ -28,8 +26,7 @@ export default function User(){
             </>
         )
     }
-    const descripcion = api.example.descripcion.useQuery({ id: sessionData?.user?.id });
-    const asignaturas = api.asignaturas.getAsignaturas2.useQuery({ id: sessionData?.user?.id });
+    const asignaturas = api.asignaturas.getAsignaturas2.useQuery();
     asignaturas.data?.sort((a, b) => a.name.localeCompare(b.name));
 
 

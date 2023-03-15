@@ -3,7 +3,7 @@ import { api } from "../../utils/api";
 import Pomodoro from "../../components/pomodoro";
 import Chronometer from "../../components/chronometer";
 
-import { GetSessionParams, getSession , useSession} from "next-auth/react"
+import {  getSession , useSession} from "next-auth/react"
 import { useState } from "react"
 import "tailwindcss/tailwind.css"
 import Navbar from "../../components/navbar";
@@ -19,7 +19,7 @@ const Asignatura =  () => {
     const id = useRouter().query.id;
     const { data: sessionData } = useSession();
     const [openTab, setOpenTab] = useState(2);
-    const {data: asignatura} = api.asignaturas.getAsignatura.useQuery({id: sessionData?.user?.id, subjectId: String(id)});
+    const {data: asignatura} = api.asignaturas.getAsignatura.useQuery({ subjectId: String(id)});
     const {data: youtube }  =  api.asignaturas.getSubjectSong.useQuery({subjectId: String(id)});
 
     const exists  = api.asignaturas.checkIfSubjectExists.useQuery({id: sessionData?.user?.id, subjectId: String(id)});

@@ -1,7 +1,6 @@
 import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { api } from '../utils/api'
-import { useSession } from 'next-auth/react'
 
 
 
@@ -12,8 +11,7 @@ export default function AddButton() {
   const [nombre, setNombre] = useState("");
   const cancelButtonRef = useRef(null)
 
-  
-  const { data: sessionData } = useSession();
+
 
 
   return (
@@ -63,7 +61,6 @@ export default function AddButton() {
                             e.preventDefault()
                             await crear.mutateAsync({
                                 name: nombre,
-                                id: sessionData?.user?.id
                             })
                             window.location.reload();
 
