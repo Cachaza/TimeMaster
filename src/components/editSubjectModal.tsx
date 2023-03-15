@@ -1,7 +1,6 @@
-import { Fragment, useRef, useState } from 'react'
+import React, { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { api } from '../utils/api'
-import { useSession } from 'next-auth/react'
 import DeleteButton from './deleteSubjectModal'
 
 
@@ -19,8 +18,7 @@ const EditarAsignatura: React.FC<Asignatura> = ({Inombre, ItiempoTrabajo, Itiemp
   const [open, setOpen] = useState(false)
   const cancelButtonRef = useRef(null)
 
-  
-  const { data: sessionData } = useSession();
+
   const [nombre, setNombre] = useState(Inombre);
   const [tiempoTrabajo, setTiempoTrabajo] = useState(ItiempoTrabajo ?? 25);
   const [tiempoDescanso, setTiempoDescanso] = useState(ItiempoDescanso ?? 5);
@@ -30,7 +28,6 @@ const EditarAsignatura: React.FC<Asignatura> = ({Inombre, ItiempoTrabajo, Itiemp
 
   function editSubject() {
     void editar.mutateAsync({
-      id: sessionData?.user?.id,
       subjectId: IasignaturaId,
       name: nombre,
       tiempoTrabajo: tiempoTrabajo,
