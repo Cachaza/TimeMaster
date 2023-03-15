@@ -58,7 +58,7 @@ const Asignatura =  () => {
         return (
           <>
               <Head>
-                  <title>No encontrado</title>
+                  <title>Cargando...</title>
                   <link rel="icon" href="/favicon.ico" />
               </Head>
 
