@@ -12,56 +12,15 @@ type subject = {
 
 
 export const ruterAsignaturas = createTRPCRouter({
-    getAsignaturas: publicProcedure
-      .input(z.object({ id: z.string().nullish()}).nullish())
-      .query(async ({ input }) => {
-            const prisma = new PrismaClient();
-            const subjects = prisma.subjects.findMany({
-                where: {
-                    ownerId: input?.id ?? ""
-                },
-                select:{
-                    name: true,
-                    totalTime: true,
-                    timeObjetive:true,
-                    subjectId: true
-                }
-            })
-            return {
-                asignaturas: (await subjects).map((subject: subject) => {
-                    return {
-                        name: subject.name,
-                        totalTime: subject.totalTime,
-                        timeObjective: subject.timeObjetive,
-                        id: subject.subjectId
 
-                    }
-                })
-            };
-        }
-      ),
-
-    createAsignatura: publicProcedure
-      .input(z.object({ id: z.string().nullish(), name: z.string().nullish()}).nullish())
-      .mutation(({ input }) => {
-            const prisma = new PrismaClient();
-            return prisma.subjects.create({
-                data: {
-                    ownerId: input?.id ?? "",
-                    name: input?.name ?? "",
-                }
-            });
-        }
-
-      ),
 
     createAsignatura2: publicProcedure
-      .input(z.object({ id: z.string().nullish(), name: z.string().nullish()}).nullish())
-      .mutation(({ input }) => {
+      .input(z.object({ name: z.string().nullish()}).nullish())
+      .mutation(({ ctx, input }) => {
             const prisma = new PrismaClient();
             return prisma.user.update({
                 where: {
-                    id: input?.id ?? "",
+                    id: ctx?.session?.user.id
                 },
                 data: {
                     subjects: {
@@ -76,12 +35,11 @@ export const ruterAsignaturas = createTRPCRouter({
       ),
 
     getAsignaturas2: publicProcedure
-      .input(z.object({ id: z.string().nullish()}).nullish())
-      .query(async ({ input }) => {
+      .query(async ({ ctx }) => {
             const prisma = new PrismaClient();
             return prisma.subjects.findMany({
                 where: {
-                    ownerId: input?.id ?? ""
+                    ownerId: ctx?.session?.user.id
                 },
                 select:{
                     name: true,
@@ -95,12 +53,12 @@ export const ruterAsignaturas = createTRPCRouter({
       ),
 
     getAsignatura: publicProcedure
-      .input(z.object({ id: z.string().nullish(), subjectId: z.string()}).nullish())
-      .query(async ({ input }) => {
+      .input(z.object({ subjectId: z.string()}).nullish())
+      .query(async ({ ctx, input }) => {
             const prisma = new PrismaClient();
             return prisma.user.findUnique({
                 where: {
-                    id: input?.id ?? ""
+                    id: ctx?.session?.user.id
                 },
                 select:{
                     subjects: {
@@ -123,12 +81,12 @@ export const ruterAsignaturas = createTRPCRouter({
       ),
 
     modificarAsignatura: publicProcedure
-      .input(z.object({ id: z.string().nullish(), subjectId: z.string(), name: z.string().nullish(), tiempoTrabajo: z.number(), tiempoDescanso: z.number(), timeObjective: z.number(), videoUrl: z.string().nullish()}).nullish())
-      .mutation(({ input }) => {
+      .input(z.object({ subjectId: z.string(), name: z.string().nullish(), tiempoTrabajo: z.number(), tiempoDescanso: z.number(), timeObjective: z.number(), videoUrl: z.string().nullish()}).nullish())
+      .mutation(({ ctx, input }) => {
             const prisma = new PrismaClient();
             return prisma.user.update({
                 where: {
-                    id: input?.id ?? "",
+                    id: ctx?.session?.user.id
                 },
                 data: {
                     subjects: {
@@ -152,12 +110,12 @@ export const ruterAsignaturas = createTRPCRouter({
       ),
 
     eliminarAsignatura: publicProcedure
-      .input(z.object({ id: z.string().nullish(), subjectId: z.string()}).nullish())
-      .mutation(({ input }) => {
+      .input(z.object({ subjectId: z.string()}).nullish())
+      .mutation(({ ctx, input }) => {
             const prisma = new PrismaClient();
             return prisma.user.update({
                 where: {
-                    id: input?.id ?? "",
+                    id: ctx?.session?.user.id
                 },
                 data: {
                     subjects: {
@@ -172,12 +130,12 @@ export const ruterAsignaturas = createTRPCRouter({
       ),
 
     añadirTiempo: publicProcedure
-      .input(z.object({ id: z.string().nullish(), subjectId: z.string(), tiempo: z.number(), totalTime: z.number()}).nullish())
-      .mutation(({ input }) => {
+      .input(z.object({ subjectId: z.string(), tiempo: z.number(), totalTime: z.number()}).nullish())
+      .mutation(({ ctx, input }) => {
             const prisma = new PrismaClient();
             const tiempoAñadido = prisma.user.update({
                 where: {
-                    id: input?.id ?? "",
+                    id: ctx?.session?.user.id
                 },
                 data: {
                     subjects: {
@@ -203,7 +161,7 @@ export const ruterAsignaturas = createTRPCRouter({
       ),
 
     getTiempos: publicProcedure
-      .input(z.object({ id: z.string().nullish(), subjectId: z.string()}).nullish())
+      .input(z.object({ subjectId: z.string()}).nullish())
       .query(async ({ input }) => {
             const prisma = new PrismaClient();
             const suma =  prisma.individualTimes.findMany({
@@ -220,12 +178,12 @@ export const ruterAsignaturas = createTRPCRouter({
       ),
 
     actualizarTiempoTotal: publicProcedure
-      .input(z.object({ id: z.string().nullish(), subjectId: z.string(), totalTime: z.number()}).nullish())
-      .mutation(({ input }) => {
+      .input(z.object({ subjectId: z.string(), totalTime: z.number()}).nullish())
+      .mutation(({ ctx, input }) => {
             const prisma = new PrismaClient();
             return prisma.user.update({
                 where: {
-                    id: input?.id ?? "",
+                    id: ctx?.session?.user.id
                 },
                 data: {
                     subjects: {
