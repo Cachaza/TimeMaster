@@ -3,6 +3,14 @@
 
 TimeMaster is a web application that helps students track the time they spend studying different subjects. It allows users to login with their Google or Discord accounts and create a list of subjects they are currently studying. The dashboard displays all the subjects a user has added, and upon clicking a subject, it takes the user to a unique page where they can track their study time using either a pomodoro timer or a chronometer. The app saves the time studied for each subject in a database, allowing users to monitor their progress and incentivize them to study more.
 
+## Images
+![User panel](https://media.discordapp.net/attachments/1061231463405719557/1087556978215239731/Screenshot_from_2023-03-21_03-01-02.png?width=970&height=523)
+User panel
+
+![subject page](https://media.discordapp.net/attachments/1061231463405719557/1087557467707281408/Screenshot_from_2023-03-21_03-04-22.png?width=984&height=523)
+Subject page
+
+
 ## Demo
 - https://time-master-cachaza.vercel.app/
 
