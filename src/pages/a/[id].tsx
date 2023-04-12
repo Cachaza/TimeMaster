@@ -1,18 +1,18 @@
 import Router, {useRouter} from "next/router";
 import { api } from "../../utils/api";
-import Pomodoro from "../../components/pomodoro";
-import Chronometer from "../../components/chronometer";
 
 import {  getSession , useSession} from "next-auth/react"
 import { useState } from "react"
-import "tailwindcss/tailwind.css"
-import Navbar from "../../components/navbar";
 
-import EditarAsignatura from "../../components/editSubjectModal";
 import Head from "next/head";
 import { GetServerSidePropsContext } from "next";
 import Link from "next/link";
+
 import Player from "../../components/player";
+import Pomodoro from "../../components/pomodoro";
+import Chronometer from "../../components/chronometer";
+import Navbar from "../../components/navbar";
+import EditarAsignatura from "../../components/editSubjectModal";
 
 
 const Asignatura =  () => {
@@ -39,9 +39,9 @@ const Asignatura =  () => {
                       <h1 className="text-4xl font-bold">Asignatura no encontrada!</h1>
                       <p className="mt-3 text-2xl">No se ha podido encontrar la asignatura que buscas, o no te pertenece</p>
                       <div className="pt-6">
-                          <button className="p-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 ">
+                          <div className="p-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 ">
                               <Link href="/user">Volver atras</Link>
-                          </button>
+                          </div>
                       </div>
                   </div>
               </>
