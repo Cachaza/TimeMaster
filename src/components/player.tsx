@@ -46,6 +46,10 @@ const Player: React.FC<PlayerProps> = ({ youtube }) => {
     setVolume(value);
   };
 
+  if (!song) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="flex">
       <audio ref={audioRef} src={song} />
