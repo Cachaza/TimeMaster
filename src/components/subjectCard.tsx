@@ -35,8 +35,8 @@ const SubjectCard: React.FC<Asignatura> = ({ nombre, asignaturaId, tiempoObjetiv
         >
             <div className="flex flex-col w-full">
                 <div className="flex flex-col justify-between p-4 leading-normal">
-                    <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{nombre}</h5>
-                    <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{tiempoFinal}</p>
+                    <h5 className="mb-2 text-2xl font-bold tracking-tight text-white">{nombre}</h5>
+                    <p className="mb-3 font-normal text-gray-400">{tiempoFinal}</p>
                 </div>
                 <div className="h-1 w-full bg-neutral-600">
                     <div className="h-1 bg-blue-800" style={{ width: String((tiempoTotal*100)/(tiempoObjetivo*60)) + "%" }}></div>
