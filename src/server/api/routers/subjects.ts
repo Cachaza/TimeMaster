@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { date, z } from "zod";
 import { PrismaClient } from "@prisma/client";
 
 import { createTRPCRouter, publicProcedure } from "../trpc";
@@ -302,6 +302,147 @@ export const ruterAsignaturas = createTRPCRouter({
 
     }
   ),
+
+  getUserTimes: publicProcedure
+  .query(async ({ ctx }) => {
+    if (ctx === undefined) {
+      throw new TRPCError({
+          code: 'UNAUTHORIZED',
+          message: 'Not authenticated',
+      })
+    }
+    if (!ctx.session || !ctx.session.user.id) {
+      throw new TRPCError({
+          code: 'UNAUTHORIZED',
+          message: 'Not authenticated',
+      })
+    }
+    const times = await ctx.prisma.user.findMany({
+      where: {
+        id: ctx.session.user.id ?? ""
+      },
+      select: {
+        subjects: {
+
+          select: {
+            name: true,
+            individualtimes: {
+              select: {
+                id: true,
+                subjectId: true,
+                workedTime: true,
+                date: true,
+              },
+            }
+          }
+        }
+      }
+    })
+    return {
+      map: times.map((time) => {
+        return{
+          Subjects: time.subjects.map((subject) => {
+            return{
+              name: subject.name,
+              Times: subject.individualtimes.map((individualtime) => {
+                return{
+                  id: individualtime.id,
+                  subjectId: individualtime.subjectId,
+                  workedTime: individualtime.workedTime,
+                  date: new Date(individualtime.date).toISOString().substring(0, 10)
+                }
+              })
+            }
+          })
+        }
+      }
+      )
+
+    }
+      
+
+    
+  }),
+
+  getUserSubjetTimes: publicProcedure
+  .input(z.object({ subjectId: z.string(), startDate: z.date(), endDate: z.date()}).nullish())
+  .query(async ({ ctx, input }) => {
+    if (!ctx?.session?.user.id) {
+      throw new TRPCError({
+          code: 'UNAUTHORIZED',
+          message: 'Not authenticated',
+      })
+    }
+    if (input === null || input === undefined) {
+      throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'You need to provide a subjectId',
+      })
+    }
+
+    const now = new Date();
+    const start = new Date(input.startDate);
+    const end = new Date(input.endDate);
+    const times = await ctx.prisma.user.findMany({
+      where: {
+        id: ctx.session.user.id
+      },
+      select: {
+        subjects: {
+
+          select: {
+            individualtimes: {
+              select: {
+                workedTime: true,
+                date: true,
+              },
+              where: {
+                date: {
+                  gte: start,
+                  lte: end
+                }
+              }
+            }
+          },
+          where: {
+            subjectId: input.subjectId
+          }
+        }
+      }
+    })
+
+    if (times[0]?.subjects[0] === undefined) {
+
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'You need to provide a valid subjectId',
+      })
+      
+    }
+
+    return {
+      map: times.map((time) => {
+        return{
+          Subjects: time.subjects.map((subject) => {
+            return{
+              Times: subject.individualtimes.map((individualtime) => {
+                return{
+                  workedTime: individualtime.workedTime,
+                  date: new Date(individualtime.date).toISOString().substring(0, 10),
+                  time: individualtime.date.getTime()
+                }
+              })
+            }
+          })
+        }
+      }
+      )
+
+    }
+      
+
+    
+  }),
 
 
 })
