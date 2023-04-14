@@ -28,7 +28,8 @@ const formatDate = (dateString: Date) => {
 
 function groupByDate(map: { map: any; }): ResultItem[] {
   const result: { [date: string]: number } = {};
-  map.map.forEach((item: { Subjects: any[]; }) => {
+  {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call */}
+  map.map.forEach((item: { Subjects: { Times: any[]; }[];}) => {
     item.Subjects.forEach((subject: { Times: any[]; }) => {
       subject.Times.forEach((time: { date: string | number; workedTime: number; }) => {
         if (result[time.date]) {
@@ -54,7 +55,7 @@ function rellenarArray(inputArray: { date: string, workedTime: number }[], start
 
   const outputArray: { date: string, workedTime: number }[] = [];
 
-  let currentDate = new Date(firstDate.getTime()); // start with the first date
+  const currentDate = new Date(firstDate.getTime()); // start with the first date
   while (currentDate <= lastDate) { // loop through all dates between the first and last date
     const dateString = currentDate.toISOString().substr(0, 10); // format the date as yyyy-mm-dd
     const workedTime = sortedInputArray.find((entry) => entry.date === dateString)?.workedTime ?? 0; // find the entry in the input array for the current date, or default to 0 if not found
@@ -95,7 +96,7 @@ export default function SubjectChart({ subjectId, startDate, endDate, subjectNam
                 tickFormatter={formatDate}
               />
               <YAxis
-                tickFormatter={(value) => {
+                tickFormatter={(value: string) => {
                   let minutes = parseInt(value);
                   const hours = Math.floor(minutes / 60);
                   minutes %= 60;
