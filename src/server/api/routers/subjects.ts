@@ -1,5 +1,4 @@
-import { date, z } from "zod";
-import { PrismaClient } from "@prisma/client";
+import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import { TRPCError } from "@trpc/server";
@@ -380,7 +379,6 @@ export const ruterAsignaturas = createTRPCRouter({
       })
     }
 
-    const now = new Date();
     const start = new Date(input.startDate);
     const end = new Date(input.endDate);
     const times = await ctx.prisma.user.findMany({
