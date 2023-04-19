@@ -3,7 +3,7 @@ import "tailwindcss/tailwind.css"
 import Head from "next/head";
 
 import {  signIn,  getSession , useSession} from "next-auth/react"
-import { GetServerSidePropsContext } from "next";
+import type { GetServerSidePropsContext } from "next";
 import Image from "next/image";
 
 
@@ -13,21 +13,6 @@ export default function Login() {
   const { data: sessionData } = useSession();
 
 
-  async function loginGoogle() {
-    try {
-      await signIn("google")
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  async function loginDiscord() {
-    try {
-      await signIn("discord")
-    } catch (error) {
-      console.log(error)
-    }
-  }
 
 
   if (sessionData) {
