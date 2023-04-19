@@ -6,7 +6,8 @@
         "plugin:@typescript-eslint/recommended-requiring-type-checking",
         "next/core-web-vitals",
         "next",
-        "react-app"
+        "react-app",
+        "prettier"
       ],
       "files": ["*.ts", "*.tsx"],
       "parserOptions": {
@@ -22,8 +23,8 @@
   "extends": [
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended",
-    "prettier",
-    "react-app"
+    "react-app",
+    "prettier"
   ],
   "rules": {
     "@typescript-eslint/consistent-type-imports": "warn"
