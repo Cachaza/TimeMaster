@@ -36,9 +36,8 @@ const formatDate = (dateString: Date) => {
 
 function groupByDate(map: { map: any }): ResultItem[] {
   const result: { [date: string]: number } = {};
-  {
-    /* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call */
-  }
+
+  /* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call */
   map.map.forEach((item: { Subjects: { Times: any[] }[] }) => {
     item.Subjects.forEach((subject: { Times: any[] }) => {
       subject.Times.forEach(

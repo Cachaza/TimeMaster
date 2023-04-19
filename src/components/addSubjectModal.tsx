@@ -59,6 +59,7 @@ export default function AddButton() {
                         <div className="mt-2">
                           {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
                           <form
+                            // eslint-disable-next-line @typescript-eslint/no-misused-promises
                             onSubmit={async (e) => {
                               e.preventDefault();
                               await crear.mutateAsync({
