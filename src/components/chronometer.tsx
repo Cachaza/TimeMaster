@@ -94,11 +94,11 @@ const Chronometer: React.FC<PomodoroProps> = ({ subjectId }) => {
 
 
   return (
-    <div className="pomodoro text-center columns-sm">
-      <div className="text-3xl pb-6">
+    <div className="text-center pomodoro columns-sm">
+      <div className="pb-6 text-3xl">
         <h1>Trabajo</h1>
       </div>
-      <div className="timer text-6xl">
+      <div className="text-6xl timer">
       <p>
         {hours.toString().padStart(2, '0')}:
         {minutes.toString().padStart(2, '0')}:
@@ -106,15 +106,15 @@ const Chronometer: React.FC<PomodoroProps> = ({ subjectId }) => {
 
       </p>
       </div>
-      <div className="buttons pt-5">
+      <div className="pt-5 buttons">
         <button
-          className="btn btn-primary pr-2 font-bold text-center"
+          className="pr-2 font-bold text-center btn btn-primary"
           onClick={isPaused ? handleStart : handleStartStopClick}
         >
           {isPaused ? "Iniciar" : "Pausar"}
         </button>
         <button
-          className="btn btn-primary pl-2 font-bold text-center"
+          className="pl-2 font-bold text-center btn btn-primary"
           onClick={handleFinish}
         >
           Finalizar

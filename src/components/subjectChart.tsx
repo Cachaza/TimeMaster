@@ -51,6 +51,7 @@ function rellenarArray(inputArray: { date: string, workedTime: number }[], start
   const sortedInputArray = inputArray.sort((a, b) => a.date.localeCompare(b.date)); // sort the array by date
 
   const firstDate = new Date(startDate);
+  //lastDate.setDate(lastDate.getDate() + 1);
   
 
   const outputArray: { date: string, workedTime: number }[] = [];

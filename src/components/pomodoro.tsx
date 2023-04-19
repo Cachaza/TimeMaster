@@ -163,11 +163,11 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime , breakTime, asignaturaId 
         />
         
       </p>
-      <div className="buttons pt-5 text-center">
-        <button onClick={isRunning ? handleStop : handleStart} className='btn btn-primary pr-2 font-bold text-center'>
+      <div className="pt-5 text-center buttons">
+        <button onClick={isRunning ? handleStop : handleStart} className='pr-2 font-bold text-center btn btn-primary'>
           {isRunning ? 'Stop' : 'Start'}
         </button>
-        <button onClick={() => void finalizarTiempo()} className='btn btn-primary pl-2 font-bold text-center'>Finalizar</button>
+        <button onClick={() => void finalizarTiempo()} className='pl-2 font-bold text-center btn btn-primary'>Finalizar</button>
       </div>
     </div>
   );

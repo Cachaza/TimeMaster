@@ -54,12 +54,12 @@ const Dashboard: NextPage = () => {
 
       <div className="">
              <div className="">
-                <div className="pb-6 text-center mt-2 font-light text-m">
+                <div className="pb-6 mt-2 font-light text-center text-m">
                     Asignaturas
                 </div>
 
                 <div className="grid grid-cols-3 gap-10 mx-8 auto-cols-auto">
-                    {asignaturas.isLoading && <div className="text-center text-xl font-medium align-middle">Cargando...</div>}
+                    {asignaturas.isLoading && <div className="text-xl font-medium text-center align-middle">Cargando...</div>}
                     {asignaturas.data?.map((asignatura) => (
                         
                         <SubjectChart subjectId={asignatura.subjectId} startDate={startDate} endDate={endDate} subjectName={asignatura.name} key={asignatura.subjectId}/>

@@ -18,7 +18,7 @@ export default function AddButton() {
     <>
         <button
             type="button"
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none "
+            className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 focus:outline-none "
             onClick={() => setOpen(true)}
         >
             Añadir asignatura
@@ -35,11 +35,11 @@ export default function AddButton() {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+          <div className="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" />
         </Transition.Child>
 
         <div className="fixed inset-0 z-10 overflow-y-auto">
-          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+          <div className="flex items-end justify-center min-h-full p-4 text-center sm:items-center sm:p-0">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -49,8 +49,8 @@ export default function AddButton() {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all">
-                <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+              <Dialog.Panel className="relative overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl">
+                <div className="px-4 pt-5 pb-4 bg-white sm:p-6 sm:pb-4">
                   <div className="sm:flex sm:items-start">
                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                       <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
@@ -69,7 +69,7 @@ export default function AddButton() {
                             <div className="flex flex-col items-center justify-center text-center text-black">
                                 <h1 className="text-4xl ">Crear Asignatura</h1>
                                 <p className="mt-3 text-2xl">Por favor ingrese el nombre de la asignatura</p>
-                                <div className="pt-6 flex flex-col">
+                                <div className="flex flex-col pt-6">
                                     <div className="flex flex-col items-center justify-center">
                                       <input
                                         required

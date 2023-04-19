@@ -29,7 +29,7 @@ const SubjectCard: React.FC<Asignatura> = ({ nombre, asignaturaId, tiempoObjetiv
     
 
     return (
-        <Link className="flex flex-col overflow-hidden static items-center md:flex-row md:max-w-xl border-gray-700 bg-gray-800 hover:bg-gray-700 col-span-2 border rounded-lg"
+        <Link className="static flex flex-col items-center col-span-2 overflow-hidden bg-gray-800 border border-gray-700 rounded-lg md:flex-row md:max-w-xl hover:bg-gray-700"
             href={"/a/" + asignaturaId}
             key={asignaturaId}
         >
@@ -38,7 +38,7 @@ const SubjectCard: React.FC<Asignatura> = ({ nombre, asignaturaId, tiempoObjetiv
                     <h5 className="mb-2 text-2xl font-bold tracking-tight text-white">{nombre}</h5>
                     <p className="mb-3 font-normal text-gray-400">{tiempoFinal}</p>
                 </div>
-                <div className="h-1 w-full bg-neutral-600">
+                <div className="w-full h-1 bg-neutral-600">
                     <div className="h-1 bg-blue-800" style={{ width: String((tiempoTotal*100)/(tiempoObjetivo*60)) + "%" }}></div>
                 </div>
             </div>

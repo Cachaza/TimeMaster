@@ -14,7 +14,7 @@ export default function noLogin() {
             </Head>
             
             <Navbar />
-            <div className="flex flex-col items-center justify-center min-h-screen py-2 -mt-28 px-14 text-center">
+            <div className="flex flex-col items-center justify-center min-h-screen py-2 text-center -mt-28 px-14">
               <h1 className="text-4xl font-bold">Area restringida!</h1>
               <p className="mt-3 text-2xl">Por favor inicia sesion para ver esta pagina</p>
               <div className="pt-6">

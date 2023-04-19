@@ -34,7 +34,7 @@ export default function Login() {
     return (
       <>
         <Navbar />
-        <div className="flex flex-col items-center justify-center min-h-screen py-2 -mt-28 px-14 text-center">
+        <div className="flex flex-col items-center justify-center min-h-screen py-2 text-center -mt-28 px-14">
           <h1 className="text-4xl font-bold">Inicio de sesion</h1>
           <p className="mt-3 text-2xl">You are signed in as {sessionData?.user?.name}
           </p>
@@ -52,14 +52,14 @@ export default function Login() {
       <Navbar />
       <div className="flex flex-col items-center justify-center min-h-screen py-2 -mt-28 px-14 text-">
         <h1 className="text-4xl font-bold">Inicio de sesion</h1>
-        <p className="mt-3 text-2xl pb-5">Elije el proveedor que desees para iniciar sesion</p>
-        <div className=" flex flex-col items-center p-5 bg-white rounded-xl">
+        <p className="pb-5 mt-3 text-2xl">Elije el proveedor que desees para iniciar sesion</p>
+        <div className="flex flex-col items-center p-5 bg-white rounded-xl">
           
-          <div className="p-2 flex flex-col">
+          <div className="flex flex-col p-2">
             <div>
               <button
                 onClick={() => void signIn("discord")}
-                className=" p-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 "
+                className="p-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
               >
                 Sign in with Discord<Image src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" className="inline w-6 h-6 ml-2"  alt="" width={10} height={10}/>
               </button>
