@@ -2,7 +2,11 @@
   "overrides": [
     {
       "extends": [
-        "plugin:@typescript-eslint/recommended-requiring-type-checking"
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "next/core-web-vitals",
+        "next",
+        "react-app"
       ],
       "files": ["*.ts", "*.tsx"],
       "parserOptions": {
@@ -15,7 +19,12 @@
     "project": "./tsconfig.json"
   },
   "plugins": ["@typescript-eslint"],
-  "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "react-app"
+  ],
   "rules": {
     "@typescript-eslint/consistent-type-imports": "warn"
   }
