@@ -1,4 +1,5 @@
-import { GetServerSideProps, GetServerSidePropsContext, type NextPage } from "next";
+import type { GetServerSideProps, GetServerSidePropsContext} from "next";
+import { type NextPage } from "next";
 import Head from "next/head";
 import {  getSession } from "next-auth/react";
 import Navbar from "../components/navbar";
