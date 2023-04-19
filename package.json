@@ -6,9 +6,9 @@
     "build": "next build",
     "dev": "next dev",
     "postinstall": "prisma generate",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.json,.md,.mdx src",
+    "lint": "next lint",
     "start": "next start",
-    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx,.json,.md,.mdx src --fix"
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx src --fix"
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
