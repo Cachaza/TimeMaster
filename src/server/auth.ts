@@ -36,7 +36,7 @@ declare module "next-auth" {
  * adapters, providers, callbacks, etc.
  * @see https://next-auth.js.org/configuration/options
  **/
- export const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   // Include user.id on session
   callbacks: {
     session({ session, user }) {
@@ -58,20 +58,18 @@ declare module "next-auth" {
       clientSecret: env.GOOGLE_CLIENT_SECRET,
     }),
 
-    
     // ...add more providers here
   ],
   theme: {
     colorScheme: "light", // "auto" | "dark" | "light"
     brandColor: "1F2937", // Hex color code
     logo: "https://easydrawingguides.com/wp-content/uploads/2019/12/Door-10.png", // Absolute URL to image
-    buttonText: "1F2937" // Hex color code
+    buttonText: "1F2937", // Hex color code
   },
   pages: {
-    signIn: '/user',
-    newUser: '/user'
+    signIn: "/user",
+    newUser: "/user",
   },
-
 };
 
 /**

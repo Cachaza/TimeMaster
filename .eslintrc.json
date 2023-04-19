@@ -4,10 +4,8 @@
       "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended-requiring-type-checking",
-        "next/core-web-vitals",
-        "next",
-        "react-app",
-        "prettier"
+        "plugin:react/recommended",
+        "plugin:prettier/recommended"
       ],
       "files": ["*.ts", "*.tsx"],
       "parserOptions": {
@@ -19,14 +17,20 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
-  "plugins": ["@typescript-eslint"],
-  "extends": [
-    "next/core-web-vitals",
-    "plugin:@typescript-eslint/recommended",
-    "react-app",
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "@next/eslint-plugin-next",
     "prettier"
   ],
   "rules": {
-    "@typescript-eslint/consistent-type-imports": "warn"
-  }
+    "@typescript-eslint/consistent-type-imports": "warn",
+    "prettier/prettier": "error",
+    "react/react-in-jsx-scope": 0,
+    "react/prop-types": "off",
+    "react/display-name": "off",
+    "react/no-unescaped-entities": "off",
+    "react/no-children-prop": "off"
+  },
+  "extends": ["plugin:@typescript-eslint/recommended", "react-app", "prettier"]
 }

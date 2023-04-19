@@ -1,10 +1,12 @@
-import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
+import {
+  CircularProgressbarWithChildren,
+  buildStyles,
+} from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 import React, { useState, useEffect } from "react";
 
 import { api } from "../utils/api";
-import Router from 'next/router';
-
+import Router from "next/router";
 
 interface PomodoroProps {
   workTime: number;
@@ -12,24 +14,25 @@ interface PomodoroProps {
   asignaturaId: string;
 }
 
-const Pomodoro: React.FC<PomodoroProps> = ({ workTime , breakTime, asignaturaId }) => {
-  
+const Pomodoro: React.FC<PomodoroProps> = ({
+  workTime,
+  breakTime,
+  asignaturaId,
+}) => {
   workTime = workTime * 60 * 1000;
   breakTime = breakTime * 60 * 1000;
   const tiempo = api.asignaturas.añadirTiempo.useMutation();
-  const getTiempos = api.asignaturas.getTiempos.useQuery({ subjectId: asignaturaId });
-  const actualizarTiempoTotalBase = api.asignaturas.actualizarTiempoTotal.useMutation();
-  
+  const getTiempos = api.asignaturas.getTiempos.useQuery({
+    subjectId: asignaturaId,
+  });
+  const actualizarTiempoTotalBase =
+    api.asignaturas.actualizarTiempoTotal.useMutation();
 
   const [timeRemaining, setTimeRemaining] = useState<number>(workTime);
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [startTime, setStartTime] = useState<number | null>(null);
   const [isBreak, setIsBreak] = useState<boolean>(false);
   const [elapsedTime, setElapsedTime] = useState(0);
-
-
-  
-
 
   async function addTime(tiempoE: number, tiempoT: number) {
     await tiempo.mutateAsync({
@@ -40,18 +43,15 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime , breakTime, asignaturaId 
   }
 
   function getSumaTiempos() {
-
-    if (getTiempos.data) {    
-        let suma = 0;     
-        for (let i = 0; i < getTiempos.data.length; i++) {
-            suma += getTiempos.data[i]?.workedTime ?? 0;
-        }
-        return suma;
-
+    if (getTiempos.data) {
+      let suma = 0;
+      for (let i = 0; i < getTiempos.data.length; i++) {
+        suma += getTiempos.data[i]?.workedTime ?? 0;
+      }
+      return suma;
     } else {
-        return 0;
+      return 0;
     }
-
   }
 
   async function actualizarTiempoTotal(trabajado: number) {
@@ -63,34 +63,22 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime , breakTime, asignaturaId 
     });
   }
 
-   function finalizarTiempo() {
-    if(!isBreak){
-      let tiempo: number
-      
-      const tiempoEstudiado = (workTime / (60* 1000)) - minutes;
-      if(tiempoEstudiado <= 0){
+  function finalizarTiempo() {
+    if (!isBreak) {
+      let tiempo: number;
+
+      const tiempoEstudiado = workTime / (60 * 1000) - minutes;
+      if (tiempoEstudiado <= 0) {
         tiempo = 0;
-      }else{
+      } else {
         tiempo = tiempoEstudiado - 1;
       }
 
-      void actualizarTiempoTotal((tiempo));
-      void addTime((tiempo), (breakTime / (60 * 1000)));
-      
+      void actualizarTiempoTotal(tiempo);
+      void addTime(tiempo, breakTime / (60 * 1000));
     }
-    void Router.push('/user');
+    void Router.push("/user");
   }
- 
-
-  
-
-
-
-
-
-
-  
-
 
   useEffect(() => {
     if (isRunning) {
@@ -100,12 +88,14 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime , breakTime, asignaturaId 
           const targetTime = isBreak ? breakTime : workTime;
           const newTimeRemaining = targetTime - timeElapsed;
           if (newTimeRemaining <= 0) {
-            if(!isBreak){
-              void actualizarTiempoTotal((workTime / (60* 1000)));
-              void addTime((workTime / (60* 1000)), (breakTime / (60 * 1000)));
+            if (!isBreak) {
+              void actualizarTiempoTotal(workTime / (60 * 1000));
+              void addTime(workTime / (60 * 1000), breakTime / (60 * 1000));
               console.log("tiempo añadido");
             }
-            const audio = new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3');
+            const audio = new Audio(
+              "https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3"
+            );
             void audio.play();
             setIsBreak(!isBreak);
             setTimeRemaining(isBreak ? breakTime : workTime);
@@ -119,8 +109,6 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime , breakTime, asignaturaId 
       return () => clearInterval(intervalId);
     }
   }, [isRunning, startTime, elapsedTime, isBreak]);
-  
-
 
   const handleStart = () => {
     setIsRunning(true);
@@ -131,7 +119,7 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime , breakTime, asignaturaId 
       setStartTime(Date.now());
     }
   };
-  
+
   const handleStop = () => {
     setIsRunning(false);
     setElapsedTime(elapsedTime + (Date.now() - startTime!));
@@ -145,29 +133,32 @@ const Pomodoro: React.FC<PomodoroProps> = ({ workTime , breakTime, asignaturaId 
   const timerMinutes = minutes < 10 ? `0${minutes}` : minutes;
   const timerSeconds = seconds < 10 ? `0${seconds}` : seconds;
 
- 
-
-
-
   return (
     <div>
       <p>
-        <h1>{isBreak ? 'Break' : 'Work'}</h1>
+        <h1>{isBreak ? "Break" : "Work"}</h1>
         <CircularProgressbarWithChildren
           value={percentage}
           styles={buildStyles({
-            pathColor: isBreak ? '#f00' : '#0f0',
-            trailColor: '#000',
+            pathColor: isBreak ? "#f00" : "#0f0",
+            trailColor: "#000",
           })}
           text={`${String(timerMinutes)}:${String(timerSeconds)}`}
         />
-        
       </p>
-      <div className="pt-5 text-center buttons">
-        <button onClick={isRunning ? handleStop : handleStart} className='pr-2 font-bold text-center btn btn-primary'>
-          {isRunning ? 'Stop' : 'Start'}
+      <div className="buttons pt-5 text-center">
+        <button
+          onClick={isRunning ? handleStop : handleStart}
+          className="btn btn-primary pr-2 text-center font-bold"
+        >
+          {isRunning ? "Stop" : "Start"}
         </button>
-        <button onClick={() => void finalizarTiempo()} className='pl-2 font-bold text-center btn btn-primary'>Finalizar</button>
+        <button
+          onClick={() => void finalizarTiempo()}
+          className="btn btn-primary pl-2 text-center font-bold"
+        >
+          Finalizar
+        </button>
       </div>
     </div>
   );

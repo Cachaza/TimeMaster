@@ -1,26 +1,24 @@
-import 'react-circular-progressbar/dist/styles.css';
+import "react-circular-progressbar/dist/styles.css";
 import React, { useState, useEffect } from "react";
 
 import { api } from "../utils/api";
-import Router from 'next/router';
-
+import Router from "next/router";
 
 interface PomodoroProps {
   subjectId: string;
 }
 
 const Chronometer: React.FC<PomodoroProps> = ({ subjectId }) => {
-
   const [isPaused, setIsPaused] = useState(true);
 
-
   const time = api.asignaturas.añadirTiempo.useMutation();
-  const getTiempos = api.asignaturas.getTiempos.useQuery({ subjectId: subjectId });
-  const actualizarTiempoTotalBase = api.asignaturas.actualizarTiempoTotal.useMutation();
+  const getTiempos = api.asignaturas.getTiempos.useQuery({
+    subjectId: subjectId,
+  });
+  const actualizarTiempoTotalBase =
+    api.asignaturas.actualizarTiempoTotal.useMutation();
   const [timeElapsed, setTimeElapsed] = useState<number>(0);
   const [startTime, setStartTime] = useState<number | null>(null);
-
-
 
   async function addTime(tiempoE: number) {
     await time.mutateAsync({
@@ -31,18 +29,15 @@ const Chronometer: React.FC<PomodoroProps> = ({ subjectId }) => {
   }
 
   function getTimesAdded() {
-
-    if (getTiempos.data) {    
-        let suma = 0;     
-        for (let i = 0; i < getTiempos.data.length; i++) {
-            suma += getTiempos.data[i]?.workedTime ?? 0;
-        }
-        return suma;
-
+    if (getTiempos.data) {
+      let suma = 0;
+      for (let i = 0; i < getTiempos.data.length; i++) {
+        suma += getTiempos.data[i]?.workedTime ?? 0;
+      }
+      return suma;
     } else {
-        return 0;
+      return 0;
     }
-
   }
 
   async function updateTotalTime(trabajado: number) {
@@ -52,8 +47,6 @@ const Chronometer: React.FC<PomodoroProps> = ({ subjectId }) => {
       subjectId: subjectId,
       totalTime: antiguoTiempo + trabajado,
     });
-       
-
   }
 
   useEffect(() => {
@@ -71,11 +64,9 @@ const Chronometer: React.FC<PomodoroProps> = ({ subjectId }) => {
     setStartTime(Date.now());
   };
 
-    const seconds = Math.floor(timeElapsed / 1000) % 60;
-    const minutes = Math.floor(timeElapsed / (1000 * 60)) % 60;
-    const hours = Math.floor(timeElapsed / (1000 * 60 * 60)) % 24;
-  
-    
+  const seconds = Math.floor(timeElapsed / 1000) % 60;
+  const minutes = Math.floor(timeElapsed / (1000 * 60)) % 60;
+  const hours = Math.floor(timeElapsed / (1000 * 60 * 60)) % 24;
 
   const handleStartStopClick = () => {
     setIsPaused(!isPaused);
@@ -85,43 +76,38 @@ const Chronometer: React.FC<PomodoroProps> = ({ subjectId }) => {
     if (isPaused) {
       setIsPaused(!isPaused);
     }
-    const timeInMinutes = Math.floor((timeElapsed / 1000) / 60);
-    void updateTotalTime(timeInMinutes).then(r => console.log(r));
+    const timeInMinutes = Math.floor(timeElapsed / 1000 / 60);
+    void updateTotalTime(timeInMinutes).then((r) => console.log(r));
     void addTime(timeInMinutes);
-    void Router.push('/user');
+    void Router.push("/user");
   };
 
-
-
   return (
-    <div className="text-center pomodoro columns-sm">
+    <div className="pomodoro columns-sm text-center">
       <div className="pb-6 text-3xl">
         <h1>Trabajo</h1>
       </div>
-      <div className="text-6xl timer">
-      <p>
-        {hours.toString().padStart(2, '0')}:
-        {minutes.toString().padStart(2, '0')}:
-        {seconds.toString().padStart(2, '0')}
-
-      </p>
+      <div className="timer text-6xl">
+        <p>
+          {hours.toString().padStart(2, "0")}:
+          {minutes.toString().padStart(2, "0")}:
+          {seconds.toString().padStart(2, "0")}
+        </p>
       </div>
-      <div className="pt-5 buttons">
+      <div className="buttons pt-5">
         <button
-          className="pr-2 font-bold text-center btn btn-primary"
+          className="btn btn-primary pr-2 text-center font-bold"
           onClick={isPaused ? handleStart : handleStartStopClick}
         >
           {isPaused ? "Iniciar" : "Pausar"}
         </button>
         <button
-          className="pl-2 font-bold text-center btn btn-primary"
+          className="btn btn-primary pl-2 text-center font-bold"
           onClick={handleFinish}
         >
           Finalizar
         </button>
-        
       </div>
-      
     </div>
   );
 };

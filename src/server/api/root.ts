@@ -10,7 +10,6 @@ import { ruterAsignaturas } from "./routers/subjects";
 export const appRouter = createTRPCRouter({
   example: exampleRouter,
   asignaturas: ruterAsignaturas,
-
 });
 
 // export type definition of API
