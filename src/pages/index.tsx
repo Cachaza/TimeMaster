@@ -1,6 +1,6 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { signIn, getSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 import Navbar from "../components/navbar";
 import type { GetServerSideProps, GetServerSidePropsContext } from "next";
 import Link from "next/link";
