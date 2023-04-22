@@ -14,8 +14,6 @@ Subject page
 ## Demo
 - https://time-master-cachaza.vercel.app/
 
-Or the docker version:
-- https://timemaster.cachaza.cc
 
 
 ## Technologies Used
