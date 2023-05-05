@@ -14,8 +14,8 @@ const Home: NextPage = () => {
       </Head>
       <Navbar />
       <main className="container mx-auto -mt-20 flex min-h-screen flex-col items-center justify-center p-4">
-        <div className="text-4xl text-white">Bienvenido a la prueba</div>
-        <div className="pb-5 text-xl text-white">Por favor inicia session</div>
+        <div className="text-4xl text-white">Bienvenido a TimeMaster</div>
+        <div className="pb-5 text-xl text-white">Para continuar, por favor inicia session</div>
         <Link
           className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
           href={"/login"}
