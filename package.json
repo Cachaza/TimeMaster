@@ -21,7 +21,7 @@
     "@trpc/client": "^10.9.0",
     "@trpc/next": "^10.9.0",
     "@trpc/react-query": "^10.9.0",
-    "@trpc/server": "^10.9.0",
+    "@trpc/server": "^10.29.1",
     "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-react": "^7.32.2",
     "fortawesome": "^0.0.1-security",
